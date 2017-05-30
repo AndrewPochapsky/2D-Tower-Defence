@@ -5,7 +5,6 @@ using UnityEngine;
 public class Tower : MonoBehaviour {
 
     protected string Name { get; set; }
-    protected int Health { get; set; }
     protected int Damage { get; set; }
     protected float FireRate { get; set; }
 
@@ -24,11 +23,10 @@ public class Tower : MonoBehaviour {
         UpgradeLevel++;
     }
 
-    protected void SetStats(TowerType.Type type, string name, int health, int damage, float fireRate, int buildCost, int upgradeLevel)
+    protected void SetStats(TowerType.Type type, string name, int damage, float fireRate, int buildCost, int upgradeLevel)
     {
         Type = type;
         Name = name;
-        Health = health;
         Damage = damage;
         FireRate = fireRate;
         BuildCost = buildCost;

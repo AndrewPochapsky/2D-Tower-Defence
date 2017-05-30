@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowTower : Tower {
+public class Goblin : Enemy {
 
 	// Use this for initialization
 	void Start () {
-       
-        SetStats(TowerType.Type.ARROW, "Arrow Tower", 100, 5, 1, 50, 1);
+        SetUpStats("Goblin", 15, 1, 3);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-     
+		
 	}
 }
