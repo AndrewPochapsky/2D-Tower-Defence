@@ -20,11 +20,11 @@ public class MouseRay : MonoBehaviour {
         print("Casting ray fromo mouse");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (hit.collider.gameObject.GetComponent<TowerLocation>())
+        if (hit.collider!= null && hit.collider.gameObject.GetComponent<TowerLocation>())
         {
             Debug.Log("Tower Location");
             TowerLocation loc = hit.collider.gameObject.GetComponent<TowerLocation>();
-            loc.PlaceTower(TowerType.Type.ARROW);
+            loc.PlaceTower(TowerPlacingUIController.currentTowerToBuild);
 
         }
       

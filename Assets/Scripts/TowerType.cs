@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class TowerType {
     
-    public enum Type { ARROW, WIZARD};
+    public enum Type { ARROW, CANNON, WIZARD};
 
 }
