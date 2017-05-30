@@ -16,7 +16,7 @@ public class TowerPlacingUIController : MonoBehaviour {
 	void Start () {
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
-        pressedColor = Color.black;
+        pressedColor = Color.grey;
         for(int i = 0; i < canvas.transform.childCount; i++)
         {
             if (canvas.transform.GetChild(i).GetComponent<Button>())
