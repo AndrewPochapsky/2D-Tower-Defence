@@ -14,6 +14,13 @@ public class TowerLocation : MonoBehaviour {
         
 	}
 
+    public void PlaceTower(TowerType.Type type)
+    {
+        Instantiate(Resources.Load("Towers/"+type), transform.position, transform.rotation);
+        
+    }
+
+
    
 
 }
