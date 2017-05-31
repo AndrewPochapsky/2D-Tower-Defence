@@ -11,12 +11,15 @@ public class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
+
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform nextWaypoint;
+   
 
 	// Use this for initialization
 	protected virtual void Start () {
+       
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
@@ -53,14 +56,7 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void Move()
     {
-        //transform.Translate(Vector2.MoveTowards(transform.position, nextWaypoint.position, 1)*Speed *Time.deltaTime);
-        //transform.Translate(ChooseDirection() * Speed * Time.deltaTime);
-        /*if (CheckIfReachedWaypoint())
-        {
-            waypoints.Remove(nextWaypoint);
-            nextWaypoint = waypoints[0];
-
-        }*/
+       
         transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.position, Speed*Time.deltaTime);
         if (CheckIfReachedWaypoint())
         {
@@ -100,8 +96,6 @@ public class Enemy : MonoBehaviour {
         }
         return false;
     }
-
-
 
 
 

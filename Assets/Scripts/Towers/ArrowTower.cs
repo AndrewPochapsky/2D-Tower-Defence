@@ -5,8 +5,8 @@ using UnityEngine;
 public class ArrowTower : Tower {
 
 	// Use this for initialization
-	void Start () {
-       
+	protected override void Start () {
+        base.Start();
         SetStats(TowerType.Type.ARROW, "Arrow Tower", 5, 1, 50, 1);
 	}
 	
