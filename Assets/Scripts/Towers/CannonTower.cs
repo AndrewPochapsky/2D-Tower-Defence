@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowTower : Tower {
+public class CannonTower : Tower {
 
 	// Use this for initialization
 	void Start () {
-       
-        SetStats(TowerType.Type.ARROW, "Arrow Tower", 100, 5, 1, 50, 1);
+        SetStats(TowerType.Type.CANNON, "Cannon Tower", 10, 1.5f, 200, 1);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-     
+		
 	}
 }
