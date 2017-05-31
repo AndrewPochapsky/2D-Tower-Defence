@@ -11,22 +11,32 @@ public class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
-
+    private Rigidbody2D rb;
+    private List<Transform> waypoints;
     private Transform nextWaypoint;
 
 	// Use this for initialization
-	void Start () {
-		
+	protected virtual void Start () {
+        rb = GetComponent<Rigidbody2D>();
+        waypoints = new List<Transform>();
+        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
+        {
+            waypoints.Add(obj.transform.transform);
+        }
+        nextWaypoint = waypoints[waypoints.Count-1];
+       
 	}
+    
 	
 	// Update is called once per frame
-	void Update () {
-		if(CurrentHealth <= 0)
+	protected virtual void Update () {
+        Move();
+        if (CurrentHealth <= 0)
         {
             Die();
         }
 	}
-
+   
     public string GetName()
     {
         return Name;
@@ -34,7 +44,7 @@ public class Enemy : MonoBehaviour {
 
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
     {
-        Name = name;
+        Name = name; 
         MaxHealth = maxHealth;
         CurrentHealth = MaxHealth;
         Damage = damage;
@@ -43,7 +53,22 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void Move()
     {
+        //transform.Translate(Vector2.MoveTowards(transform.position, nextWaypoint.position, 1)*Speed *Time.deltaTime);
+        //transform.Translate(ChooseDirection() * Speed * Time.deltaTime);
+        /*if (CheckIfReachedWaypoint())
+        {
+            waypoints.Remove(nextWaypoint);
+            nextWaypoint = waypoints[0];
 
+        }*/
+        transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.position, Speed*Time.deltaTime);
+        if (CheckIfReachedWaypoint())
+        {
+            print("changing to next waypoint");
+            waypoints.RemoveAt(waypoints.Count - 1);
+            nextWaypoint = waypoints[waypoints.Count - 1];
+        }
+        print("moving");
     }
 
     protected void Die()
@@ -52,6 +77,29 @@ public class Enemy : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    private Vector2 ChooseDirection()
+    {
+        float xDifference = Mathf.Abs(nextWaypoint.position.x - transform.position.x);
+        float yDifference = Mathf.Abs(nextWaypoint.position.y - transform.position.y);
+
+        if(nextWaypoint.position.x > transform.position.x && xDifference >=0.25f)
+        {
+            return Vector2.right;
+        }
+        return Vector2.up;
+    }
+
+    private bool CheckIfReachedWaypoint()
+    {
+        float xDifference = Mathf.Abs(transform.position.x - nextWaypoint.position.x);
+        float yDifference = Mathf.Abs(transform.position.y - nextWaypoint.position.y);
+
+        if(xDifference<=0.1f && yDifference <= 0.1f)
+        {
+            return true;
+        }
+        return false;
+    }
 
 
 
