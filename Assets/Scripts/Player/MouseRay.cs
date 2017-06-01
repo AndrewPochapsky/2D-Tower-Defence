@@ -25,7 +25,7 @@ public class MouseRay : MonoBehaviour {
         {
             
             TowerLocation loc = hit.collider.gameObject.GetComponent<TowerLocation>();
-            loc.PlaceTower(TowerPlacingUIController.currentTowerToBuild);
+            loc.PlaceTower(UIController.currentTowerToBuild);
 
         }
       

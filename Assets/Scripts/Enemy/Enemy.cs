@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+    
 
     //TODO add an enumerator for types of resistances
     //Example: Some enemies resistant to arrows but weak to fire
@@ -19,7 +20,8 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
-       
+
+        
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
@@ -43,6 +45,10 @@ public class Enemy : MonoBehaviour {
     public string GetName()
     {
         return Name;
+    }
+    public int GetDamage()
+    {
+        return Damage;
     }
 
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
