@@ -17,16 +17,18 @@ public class Tower : MonoBehaviour {
     private Enemy target;
     
     private Transform cannon;
+    private TowerRange range;
 
 
     protected virtual void Start()
     {
-       
+        range = transform.GetChild(1).GetComponent<TowerRange>();
         cannon = transform.GetChild(0).transform;
     }
 
     protected virtual void Update()
     {
+        target = range.GetEnemy();
         //print("Next Fire: " + NextFire);
        if(target != null)
         {
@@ -73,20 +75,7 @@ public class Tower : MonoBehaviour {
 
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-        if (collision.GetComponent<Enemy>())
-        {
-            //print("Updating position"); 
-            target = collision.GetComponent<Enemy>();
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.GetComponent<Enemy>())
-            target = null;
-    }
+   
 
   
 }

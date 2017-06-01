@@ -4,18 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class TowerPlacingUIController : MonoBehaviour {
+public class UIController : MonoBehaviour {
+
+    //TODO: create tower type null or something so you wont build anything when starting out by a click
 
     Canvas canvas;
     List<Button> buttons;
     Color pressedColor;
+    [SerializeField]
+    Text healthText, currencyText;
 
+    GameManager gm;
 
     public static TowerType.Type currentTowerToBuild;
 	// Use this for initialization
 	void Start () {
+        gm = GameObject.FindObjectOfType<GameManager>();
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
+        
         pressedColor = Color.grey;
         for(int i = 0; i < canvas.transform.childCount; i++)
         {
@@ -30,7 +37,7 @@ public class TowerPlacingUIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //print("Current tower to build: " + currentTowerToBuild);
+        healthText.text = "Base Health: " + gm.GetCurrentHealth() + "/" + gm.GetMaxHealth();
 	}
 
     public void SetCurrentTowerToBuild()
