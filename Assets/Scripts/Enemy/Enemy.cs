@@ -101,9 +101,10 @@ public class Enemy : MonoBehaviour {
         }
         return false;
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print("Collision on enemy: " + collision.name);
         if (collision.GetComponent<Projectile>())
         {
             Projectile proj = collision.GetComponent<Projectile>();
@@ -112,6 +113,7 @@ public class Enemy : MonoBehaviour {
             Destroy(collision.gameObject);
         }
     }
+   
 
 
 
