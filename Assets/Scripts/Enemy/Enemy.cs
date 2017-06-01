@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour {
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform nextWaypoint;
-   
+    private float tolerance = 0.1f;
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -61,8 +61,13 @@ public class Enemy : MonoBehaviour {
         if (CheckIfReachedWaypoint())
         {
             print("changing to next waypoint");
-            waypoints.RemoveAt(waypoints.Count - 1);
-            nextWaypoint = waypoints[waypoints.Count - 1];
+            if (waypoints.Count - 1 > 0)
+            {
+                waypoints.RemoveAt(waypoints.Count - 1);
+
+                nextWaypoint = waypoints[waypoints.Count - 1];
+            }
+                
         }
         print("moving");
     }
@@ -90,11 +95,22 @@ public class Enemy : MonoBehaviour {
         float xDifference = Mathf.Abs(transform.position.x - nextWaypoint.position.x);
         float yDifference = Mathf.Abs(transform.position.y - nextWaypoint.position.y);
 
-        if(xDifference<=0.1f && yDifference <= 0.1f)
+        if(xDifference<=tolerance && yDifference <= tolerance)
         {
             return true;
         }
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Projectile>())
+        {
+            Projectile proj = collision.GetComponent<Projectile>();
+            CurrentHealth -= proj.GetDamage();
+            print("CUrrent health: " + CurrentHealth);
+            Destroy(collision.gameObject);
+        }
     }
 
 

@@ -20,9 +20,11 @@ public class TowerRange : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print("Collison: " + collision.name);
         if (collision.GetComponent<Enemy>())
         {
             detectedEnemy = collision.GetComponent<Enemy>();
+            print("Setting Enemy");
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
