@@ -11,12 +11,15 @@ public class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
+
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform nextWaypoint;
+    private float tolerance = 0.1f;
 
 	// Use this for initialization
 	protected virtual void Start () {
+       
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
@@ -53,20 +56,18 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void Move()
     {
-        //transform.Translate(Vector2.MoveTowards(transform.position, nextWaypoint.position, 1)*Speed *Time.deltaTime);
-        //transform.Translate(ChooseDirection() * Speed * Time.deltaTime);
-        /*if (CheckIfReachedWaypoint())
-        {
-            waypoints.Remove(nextWaypoint);
-            nextWaypoint = waypoints[0];
-
-        }*/
+       
         transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.position, Speed*Time.deltaTime);
         if (CheckIfReachedWaypoint())
         {
             print("changing to next waypoint");
-            waypoints.RemoveAt(waypoints.Count - 1);
-            nextWaypoint = waypoints[waypoints.Count - 1];
+            if (waypoints.Count - 1 > 0)
+            {
+                waypoints.RemoveAt(waypoints.Count - 1);
+
+                nextWaypoint = waypoints[waypoints.Count - 1];
+            }
+                
         }
         print("moving");
     }
@@ -94,14 +95,23 @@ public class Enemy : MonoBehaviour {
         float xDifference = Mathf.Abs(transform.position.x - nextWaypoint.position.x);
         float yDifference = Mathf.Abs(transform.position.y - nextWaypoint.position.y);
 
-        if(xDifference<=0.1f && yDifference <= 0.1f)
+        if(xDifference<=tolerance && yDifference <= tolerance)
         {
             return true;
         }
         return false;
     }
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Projectile>())
+        {
+            Projectile proj = collision.GetComponent<Projectile>();
+            CurrentHealth -= proj.GetDamage();
+            print("CUrrent health: " + CurrentHealth);
+            Destroy(collision.gameObject);
+        }
+    }
 
 
 

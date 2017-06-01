@@ -5,12 +5,10 @@ using UnityEngine;
 public class CannonTower : Tower {
 
 	// Use this for initialization
-	void Start () {
-        SetStats(TowerType.Type.CANNON, "Cannon Tower", 10, 1.5f, 200, 1);
+	protected override void Start () {
+        base.Start();
+        SetStats(TowerType.Type.CANNON, "Cannon Tower", 10, 1.5f,2, 200, 1);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
 }
