@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour {
         {
             Die();
         }
-        print("Enemy Health: " + CurrentHealth + "/" + MaxHealth);
+
 	}
    
     public string GetName()
@@ -50,6 +50,10 @@ public class Enemy : MonoBehaviour {
     public int GetDamage()
     {
         return Damage;
+    }
+    public string GetHealthString()
+    {
+        return CurrentHealth + "/" + MaxHealth;
     }
 
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
@@ -111,41 +115,30 @@ public class Enemy : MonoBehaviour {
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.GetComponent<DamageSpread>())
+        {
+            DamageSpread spread = collision.GetComponent<DamageSpread>();
+            CurrentHealth -= spread.GetDamage();
+        }
 
         if (collision.GetComponent<Projectile>())
         {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
+            //print("taking damage");
             if(proj is CannonBall)
             {
                 CannonBall ball = (CannonBall)proj;
-                ball.SetDetonated(true);
-                print("proj is cannonball");
+                //ball.SetDetonated(true);
+                
+                Destroy(ball.gameObject);
+                
             }
-            else
-            {
-                Destroy(collision.gameObject);
-            }
-          
-
            
         }
-        /*if (collision.GetComponent<DamageSpread>())
-        {
-            print("damage spread " + collision.name);
-            DamageSpread spread = collision.GetComponent<DamageSpread>();
-            if(spread.projectile is CannonBall)
-            {
-                CannonBall proj = (CannonBall)spread.projectile;
-                if (proj.IsDetonated())
-                {
-                    print("Taking damage from spread");
-                    CurrentHealth -= proj.GetDamageSpread();
-                }
-            }
-            
-        }*/
+      
 
+        
     }
 
     public void DealDamage(int damage)
