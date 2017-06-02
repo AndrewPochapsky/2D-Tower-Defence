@@ -23,7 +23,7 @@ public class PlayerBase : MonoBehaviour {
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             gm.SetCurrentHealth(gm.GetCurrentHealth() - enemy.GetDamage());
-            print(enemy.GetDamage()+ " damage dealt to base, Health: "+gm.GetCurrentHealth() +"/"+gm.GetMaxHealth());
+
 
             Destroy(enemy.gameObject);
         }

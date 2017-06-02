@@ -36,7 +36,7 @@ public class WaveSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        print("SPAWNSTATE: " + spawnState);
+
         if (spawnState == SpawnState.WAITING)
         {
             if (!EnemyAlive())
@@ -103,7 +103,16 @@ public class WaveSpawner : MonoBehaviour {
     }
     private void WaveCompleted()
     {
-        waveNum++;
+        if (waveNum + 1 <= waves.Length)
+        {
+            waveNum++;
+        }
+        else
+        {
+            waveNum = 1;
+            print("restarting waves");
+        }
+       
         waveCountDown = 3f;
         spawnState = SpawnState.COUNTING;
     }
