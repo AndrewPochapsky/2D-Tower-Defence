@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour {
         transform.position = Vector2.MoveTowards(transform.position, nextWaypoint.position, Speed*Time.deltaTime);
         if (CheckIfReachedWaypoint())
         {
-            print("changing to next waypoint");
+
             if (waypoints.Count - 1 > 0)
             {
                 waypoints.RemoveAt(waypoints.Count - 1);
@@ -110,12 +110,12 @@ public class Enemy : MonoBehaviour {
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("Collision on enemy: " + collision.name);
+
         if (collision.GetComponent<Projectile>())
         {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
-            print("CUrrent health: " + CurrentHealth);
+
             Destroy(collision.gameObject);
         }
     }
