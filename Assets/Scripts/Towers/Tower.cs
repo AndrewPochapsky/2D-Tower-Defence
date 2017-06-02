@@ -6,9 +6,11 @@ public class Tower : MonoBehaviour {
 
     protected string Name { get; set; }
     protected int Damage { get; set; }
+    protected int DamageSpread { get; set; }
     protected float FireRate { get; set; }
     protected float NextFire { get; set; }
     protected float ProjectileSpeed { get; set; }
+   
 
     protected int BuildCost { get; set; }
     protected int UpgradeLevel { get; set; }
@@ -47,11 +49,12 @@ public class Tower : MonoBehaviour {
         UpgradeLevel++;
     }
 
-    protected void SetStats(TowerType.Type type, string name, int damage, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel)
+    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel)
     {
         Type = type;
         Name = name;
         Damage = damage;
+        DamageSpread = damageSpread;
         FireRate = fireRate;
         ProjectileSpeed = projectileSpeed;
         BuildCost = buildCost;
@@ -66,6 +69,7 @@ public class Tower : MonoBehaviour {
             Projectile projectile = obj.GetComponent<Projectile>();
 
             projectile.SetDamage(Damage);
+            projectile.SetDamageSpread(DamageSpread);
             projectile.SetSpeed(ProjectileSpeed);
             projectile.SetTarget(target.transform);
             

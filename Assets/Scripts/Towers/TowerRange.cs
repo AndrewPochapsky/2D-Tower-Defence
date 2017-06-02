@@ -20,7 +20,7 @@ public class TowerRange : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        print("Collision Range: " + collision.name);
+
         if (collision.GetComponent<Enemy>())
         {
             detectedEnemy = collision.GetComponent<Enemy>();

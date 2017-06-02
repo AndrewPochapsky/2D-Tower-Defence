@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour {
         {
             Die();
         }
+        print("Enemy Health: " + CurrentHealth + "/" + MaxHealth);
 	}
    
     public string GetName()
@@ -115,9 +116,42 @@ public class Enemy : MonoBehaviour {
         {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
+            if(proj is CannonBall)
+            {
+                CannonBall ball = (CannonBall)proj;
+                ball.SetDetonated(true);
+                print("proj is cannonball");
+            }
+            else
+            {
+                Destroy(collision.gameObject);
+            }
+          
 
-            Destroy(collision.gameObject);
+           
         }
+        /*if (collision.GetComponent<DamageSpread>())
+        {
+            print("damage spread " + collision.name);
+            DamageSpread spread = collision.GetComponent<DamageSpread>();
+            if(spread.projectile is CannonBall)
+            {
+                CannonBall proj = (CannonBall)spread.projectile;
+                if (proj.IsDetonated())
+                {
+                    print("Taking damage from spread");
+                    CurrentHealth -= proj.GetDamageSpread();
+                }
+            }
+            
+        }*/
+
+    }
+
+    public void DealDamage(int damage)
+    {
+        print("damage being delt");
+        CurrentHealth -= damage;
     }
    
 
