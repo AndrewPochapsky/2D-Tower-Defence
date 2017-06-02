@@ -14,8 +14,17 @@ public class Projectile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        LookAtTarget(enemyTarget);
-        MoveTowardsTarget(enemyTarget);
+        if (enemyTarget != null)
+        {
+            LookAtTarget(enemyTarget);
+            MoveTowardsTarget(enemyTarget);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+
 	}
 
     public void SetTarget(Transform target)
@@ -49,4 +58,7 @@ public class Projectile : MonoBehaviour {
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
+
+    
+
 }
