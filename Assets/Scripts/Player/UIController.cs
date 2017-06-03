@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour {
     Color pressedColor;
     [SerializeField]
     Text healthText, currencyText;
+    private GameObject towerImage= null;
 
     GameManager gm;
 
@@ -39,6 +40,13 @@ public class UIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         healthText.text = "Base Health: " + gm.GetCurrentHealth() + "/" + gm.GetMaxHealth();
+        if(towerImage != null)
+        {
+            Vector3 v3 = Input.mousePosition;
+            v3.z = 10;
+            v3 = Camera.main.ScreenToWorldPoint(v3);
+            towerImage.transform.position = v3;
+        }
 	}
 
     public void SetCurrentTowerToBuild()
@@ -46,6 +54,8 @@ public class UIController : MonoBehaviour {
         GameObject button = EventSystem.current.currentSelectedGameObject;
         FindPressedButton(button.tag);
         currentTowerToBuild = (TowerType.Type)System.Enum.Parse(typeof(TowerType.Type), button.tag);
+        Destroy(towerImage);
+        towerImage = Instantiate(Resources.Load("Towers/TowerImages/"+button.tag + "-Image"), Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.rotation) as GameObject;
 
     }
 
@@ -62,6 +72,13 @@ public class UIController : MonoBehaviour {
                 button.GetComponent<Image>().color = Color.white;
             }
         }
+    }
+
+    public void ResetTowerUI()
+    {
+        FindPressedButton("Bleh");
+        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
+        Destroy(towerImage);
     }
 
 }
