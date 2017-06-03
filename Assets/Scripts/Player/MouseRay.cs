@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseRay : MonoBehaviour {
 
-    Tower lastTower;
+    public static Tower lastTower;
 
 	// Use this for initialization
 	void Start () {

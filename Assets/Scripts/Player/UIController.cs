@@ -7,24 +7,32 @@ using UnityEngine.EventSystems;
 public class UIController : MonoBehaviour {
 
     //TODO: create tower type null or something so you wont build anything when starting out by a click
-
+    
     Canvas canvas;
     List<Button> buttons;
     Color pressedColor;
     [SerializeField]
     Text healthText, currencyText;
     private GameObject towerImage= null;
-
+    Text towerName, upgradeLevel, upgradeCost;
     GameManager gm;
+    public Transform infoCard;
 
+    private static bool displayCard = false;
+    
     public static TowerType.Type currentTowerToBuild;
-	// Use this for initialization
+	
+
 	void Start () {
         currentTowerToBuild = TowerType.Type.NONE_SELECTED;
         gm = GameObject.FindObjectOfType<GameManager>();
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
-        
+
+        towerName = infoCard.GetChild(1).GetComponent<Text>();
+        upgradeLevel = infoCard.GetChild(2).GetComponent<Text>();
+        upgradeCost = infoCard.GetChild(3).GetComponent<Text>();
+
         pressedColor = Color.grey;
         for(int i = 0; i < canvas.transform.childCount; i++)
         {
@@ -46,6 +54,17 @@ public class UIController : MonoBehaviour {
             v3.z = 10;
             v3 = Camera.main.ScreenToWorldPoint(v3);
             towerImage.transform.position = v3;
+        }
+        if (displayCard)
+        {
+            infoCard.gameObject.SetActive(true);
+            towerName.text = MouseRay.lastTower.GetName();
+            upgradeLevel.text = "Upgrade Level: " + MouseRay.lastTower.GetUpgradeLevel();
+            upgradeCost.text = "Upgrade Cost: " + MouseRay.lastTower.GetUpgradeCost();
+        }
+        else
+        {
+            infoCard.gameObject.SetActive(false);
         }
 	}
 
@@ -81,4 +100,8 @@ public class UIController : MonoBehaviour {
         Destroy(towerImage);
     }
 
+    public static void SetDisplayCard(bool value)
+    {
+        displayCard = value;
+    }
 }
