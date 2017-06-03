@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour {
             waypoints.Add(obj.transform.transform);
         }
         nextWaypoint = waypoints[waypoints.Count-1];
+     
        
 	}
     
@@ -80,25 +81,13 @@ public class Enemy : MonoBehaviour {
             }
                 
         }
-        print("moving");
+       
     }
 
     protected void Die()
     {
         //play sound, give currency/exp to player
         Destroy(gameObject);
-    }
-
-    private Vector2 ChooseDirection()
-    {
-        float xDifference = Mathf.Abs(nextWaypoint.position.x - transform.position.x);
-        float yDifference = Mathf.Abs(nextWaypoint.position.y - transform.position.y);
-
-        if(nextWaypoint.position.x > transform.position.x && xDifference >=0.25f)
-        {
-            return Vector2.right;
-        }
-        return Vector2.up;
     }
 
     private bool CheckIfReachedWaypoint()
@@ -126,14 +115,7 @@ public class Enemy : MonoBehaviour {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
             //print("taking damage");
-            if(proj is CannonBall)
-            {
-                CannonBall ball = (CannonBall)proj;
-                //ball.SetDetonated(true);
-                
-                Destroy(ball.gameObject);
-                
-            }
+            Destroy(collision.gameObject);
            
         }
       

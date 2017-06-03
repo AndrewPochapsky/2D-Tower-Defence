@@ -79,6 +79,12 @@ public class Tower : MonoBehaviour {
 
 
     }
+
+    public void ToggleInfo(bool value)
+    {
+        SpriteRenderer sp = range.GetComponent<SpriteRenderer>();
+        sp.enabled = value;
+    }
    
 
   

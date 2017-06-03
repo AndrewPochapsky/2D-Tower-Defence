@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour {
     public static TowerType.Type currentTowerToBuild;
 	// Use this for initialization
 	void Start () {
+        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
         gm = GameObject.FindObjectOfType<GameManager>();
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
@@ -45,6 +46,7 @@ public class UIController : MonoBehaviour {
         GameObject button = EventSystem.current.currentSelectedGameObject;
         FindPressedButton(button.tag);
         currentTowerToBuild = (TowerType.Type)System.Enum.Parse(typeof(TowerType.Type), button.tag);
+
     }
 
     private void FindPressedButton(string tag)
