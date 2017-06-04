@@ -15,20 +15,21 @@ public class Enemy : MonoBehaviour {
 
     private Rigidbody2D rb;
     private List<Transform> waypoints;
+    private Transform waypointsTransform;
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
 
 	// Use this for initialization
 	protected virtual void Start () {
 
-        
+        waypointsTransform = GameObject.FindGameObjectWithTag("Waypoints").transform;
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
-        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
+        for(int i =0; i < waypointsTransform.childCount; i++)
         {
-            waypoints.Add(obj.transform.transform);
+            waypoints.Add(waypointsTransform.GetChild(i));
         }
-        nextWaypoint = waypoints[waypoints.Count-1];
+        nextWaypoint = waypoints[0];
      
        
 	}
@@ -75,9 +76,9 @@ public class Enemy : MonoBehaviour {
 
             if (waypoints.Count - 1 > 0)
             {
-                waypoints.RemoveAt(waypoints.Count - 1);
+                waypoints.RemoveAt(0);
 
-                nextWaypoint = waypoints[waypoints.Count - 1];
+                nextWaypoint = waypoints[0];
             }
                 
         }
