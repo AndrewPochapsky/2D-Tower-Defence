@@ -15,20 +15,22 @@ public class Enemy : MonoBehaviour {
 
     private Rigidbody2D rb;
     private List<Transform> waypoints;
+    private Transform waypointsTransform;
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
 
 	// Use this for initialization
 	protected virtual void Start () {
 
-        
+        waypointsTransform = GameObject.FindGameObjectWithTag("Waypoints").transform;
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
-        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Waypoint"))
+        for(int i =0; i < waypointsTransform.childCount; i++)
         {
-            waypoints.Add(obj.transform.transform);
+            waypoints.Add(waypointsTransform.GetChild(i));
         }
-        nextWaypoint = waypoints[waypoints.Count-1];
+        nextWaypoint = waypoints[0];
+     
        
 	}
     
@@ -40,7 +42,7 @@ public class Enemy : MonoBehaviour {
         {
             Die();
         }
-        print("Enemy Health: " + CurrentHealth + "/" + MaxHealth);
+
 	}
    
     public string GetName()
@@ -50,6 +52,10 @@ public class Enemy : MonoBehaviour {
     public int GetDamage()
     {
         return Damage;
+    }
+    public string GetHealthString()
+    {
+        return CurrentHealth + "/" + MaxHealth;
     }
 
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
@@ -68,33 +74,21 @@ public class Enemy : MonoBehaviour {
         if (CheckIfReachedWaypoint())
         {
 
-            if (waypoints.Count - 1 > 0)
+            if (waypoints.Count - 1 > 0) 
             {
-                waypoints.RemoveAt(waypoints.Count - 1);
+                waypoints.RemoveAt(0);
 
-                nextWaypoint = waypoints[waypoints.Count - 1];
+                nextWaypoint = waypoints[0];
             }
                 
         }
-        print("moving");
+       
     }
 
     protected void Die()
     {
         //play sound, give currency/exp to player
         Destroy(gameObject);
-    }
-
-    private Vector2 ChooseDirection()
-    {
-        float xDifference = Mathf.Abs(nextWaypoint.position.x - transform.position.x);
-        float yDifference = Mathf.Abs(nextWaypoint.position.y - transform.position.y);
-
-        if(nextWaypoint.position.x > transform.position.x && xDifference >=0.25f)
-        {
-            return Vector2.right;
-        }
-        return Vector2.up;
     }
 
     private bool CheckIfReachedWaypoint()
@@ -111,41 +105,23 @@ public class Enemy : MonoBehaviour {
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.GetComponent<DamageSpread>())
+        {
+            DamageSpread spread = collision.GetComponent<DamageSpread>();
+            CurrentHealth -= spread.GetDamage();
+        }
 
         if (collision.GetComponent<Projectile>())
         {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
-            if(proj is CannonBall)
-            {
-                CannonBall ball = (CannonBall)proj;
-                ball.SetDetonated(true);
-                print("proj is cannonball");
-            }
-            else
-            {
-                Destroy(collision.gameObject);
-            }
-          
-
+            //print("taking damage");
+            Destroy(collision.gameObject);
            
         }
-        /*if (collision.GetComponent<DamageSpread>())
-        {
-            print("damage spread " + collision.name);
-            DamageSpread spread = collision.GetComponent<DamageSpread>();
-            if(spread.projectile is CannonBall)
-            {
-                CannonBall proj = (CannonBall)spread.projectile;
-                if (proj.IsDetonated())
-                {
-                    print("Taking damage from spread");
-                    CurrentHealth -= proj.GetDamageSpread();
-                }
-            }
-            
-        }*/
+      
 
+        
     }
 
     public void DealDamage(int damage)

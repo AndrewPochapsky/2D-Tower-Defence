@@ -21,26 +21,6 @@ public class DamageSpread : MonoBehaviour {
     {
         this.damage = damage;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.GetComponent<Enemy>())
-        {
-            Enemy target = collision.GetComponent<Enemy>();
-            if(projectile is CannonBall)
-            {
-                //print("projectile is cannon ball");
-                CannonBall proj = (CannonBall)projectile;
-                if (proj.IsDetonated())
-                {
-
-                    target.DealDamage(damage);
-                    print("target: " + target);
-                    Destroy(projectile.gameObject);
-                }
-                
-            }
-        }
-    }
+   
 
 }

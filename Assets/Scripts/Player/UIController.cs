@@ -7,22 +7,33 @@ using UnityEngine.EventSystems;
 public class UIController : MonoBehaviour {
 
     //TODO: create tower type null or something so you wont build anything when starting out by a click
-
+    
     Canvas canvas;
     List<Button> buttons;
     Color pressedColor;
     [SerializeField]
-    Text healthText, currencyText;
-
+    Text waveText, healthText, currencyText, rightClickText;
+    private GameObject towerImage= null;
+    Text towerName, upgradeLevel, upgradeCost;
     GameManager gm;
+    public Transform infoCard;
+    public BoxCollider2D infoCardColl;
 
+    private static bool displayCard = false;
+    
     public static TowerType.Type currentTowerToBuild;
-	// Use this for initialization
+	
+
 	void Start () {
+        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
         gm = GameObject.FindObjectOfType<GameManager>();
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
-        
+
+        towerName = infoCard.GetChild(1).GetComponent<Text>();
+        upgradeLevel = infoCard.GetChild(2).GetComponent<Text>();
+        upgradeCost = infoCard.GetChild(3).GetComponent<Text>();
+
         pressedColor = Color.grey;
         for(int i = 0; i < canvas.transform.childCount; i++)
         {
@@ -37,7 +48,41 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetMouseButtonDown(1)&& towerImage!=null)
+        {
+            ResetTowerUI();
+        }
+
+        waveText.text = "Wave: "+ WaveSpawner.GetWaveText();
         healthText.text = "Base Health: " + gm.GetCurrentHealth() + "/" + gm.GetMaxHealth();
+        currencyText.text = "Currency: " + gm.GetCurrency();
+
+        
+        if(towerImage != null)
+        {
+            Vector3 v3 = Input.mousePosition;
+            v3.z = 10;
+            v3 = Camera.main.ScreenToWorldPoint(v3);
+            towerImage.transform.position = v3;
+            rightClickText.gameObject.SetActive(true);
+        }
+        else
+        {
+            rightClickText.gameObject.SetActive(false);
+        }
+        if (displayCard)
+        {
+            infoCardColl.enabled = true;
+            infoCard.gameObject.SetActive(true);
+            towerName.text = MouseRay.lastTower.GetName();
+            upgradeLevel.text = "Upgrade Level: " + MouseRay.lastTower.GetUpgradeLevel();
+            upgradeCost.text = "Upgrade Cost: " + MouseRay.lastTower.GetUpgradeCost();
+        }
+        else
+        {
+            infoCardColl.enabled = false;
+            infoCard.gameObject.SetActive(false);
+        }
 	}
 
     public void SetCurrentTowerToBuild()
@@ -45,6 +90,9 @@ public class UIController : MonoBehaviour {
         GameObject button = EventSystem.current.currentSelectedGameObject;
         FindPressedButton(button.tag);
         currentTowerToBuild = (TowerType.Type)System.Enum.Parse(typeof(TowerType.Type), button.tag);
+        Destroy(towerImage);
+        towerImage = Instantiate(Resources.Load("Towers/TowerImages/"+button.tag + "-Image"), Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.rotation) as GameObject;
+
     }
 
     private void FindPressedButton(string tag)
@@ -62,4 +110,16 @@ public class UIController : MonoBehaviour {
         }
     }
 
+    public void ResetTowerUI()
+    {
+        FindPressedButton("Bleh");
+        rightClickText.gameObject.SetActive(false);
+        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
+        Destroy(towerImage);
+    }
+
+    public static void SetDisplayCard(bool value)
+    {
+        displayCard = value;
+    }
 }

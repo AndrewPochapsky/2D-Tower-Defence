@@ -23,7 +23,8 @@ public class WaveSpawner : MonoBehaviour {
     SpawnState spawnState;
 
     public Wave[] waves;
-    private int waveNum= 1;
+    private static int waveNum= 1;
+    private static int totalWaves;
     private Enemy[] enemies;
     private int numOfEnemies = 4;
     public Transform spawnPoint;
@@ -32,6 +33,7 @@ public class WaveSpawner : MonoBehaviour {
     // Use this for initialization
     void Start () {
         spawnState = SpawnState.COUNTING;
+        totalWaves = waves.Length;
 	}
 	
 	// Update is called once per frame
@@ -133,6 +135,12 @@ public class WaveSpawner : MonoBehaviour {
 
         return true;
     }
+
+    public static string GetWaveText()
+    {
+        return waveNum + "/" + totalWaves;
+    }
+
 
 }
 

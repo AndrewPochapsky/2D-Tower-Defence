@@ -14,12 +14,14 @@ public class Tower : MonoBehaviour {
 
     protected int BuildCost { get; set; }
     protected int UpgradeLevel { get; set; }
+    protected int UpgradeCost { get; set; }
     protected TowerType.Type Type { get; set; }
 
     private Enemy target;
     
     private Transform cannon;
     private TowerRange range;
+    
 
 
     protected virtual void Start()
@@ -49,7 +51,7 @@ public class Tower : MonoBehaviour {
         UpgradeLevel++;
     }
 
-    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel)
+    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost)
     {
         Type = type;
         Name = name;
@@ -59,6 +61,7 @@ public class Tower : MonoBehaviour {
         ProjectileSpeed = projectileSpeed;
         BuildCost = buildCost;
         UpgradeLevel = upgradeLevel;
+        UpgradeCost = upgradeCost;
     }
     private void Fire()
     {
@@ -79,7 +82,25 @@ public class Tower : MonoBehaviour {
 
 
     }
-   
 
+    public void ToggleInfo(bool value)
+    {
+        SpriteRenderer sp = range.GetComponent<SpriteRenderer>();
+        sp.enabled = value;
+        UIController.SetDisplayCard(value);
+    }
+   
+    public string GetName()
+    {
+        return Name;
+    }
+    public int GetUpgradeLevel()
+    {
+        return UpgradeLevel;
+    }
+    public int GetUpgradeCost()
+    {
+        return UpgradeCost;
+    }
   
 }
