@@ -32,4 +32,10 @@ public class GameManager : MonoBehaviour {
     {
         currentHealth = health;
     }
+
+    public int GetCurrency()
+    {
+        return currencyAmount;
+    }
+
 }

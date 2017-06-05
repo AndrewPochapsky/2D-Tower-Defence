@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour {
         if (CheckIfReachedWaypoint())
         {
 
-            if (waypoints.Count - 1 > 0)
+            if (waypoints.Count - 1 > 0) 
             {
                 waypoints.RemoveAt(0);
 

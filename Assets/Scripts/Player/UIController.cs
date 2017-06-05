@@ -12,11 +12,12 @@ public class UIController : MonoBehaviour {
     List<Button> buttons;
     Color pressedColor;
     [SerializeField]
-    Text healthText, currencyText, rightClickText;
+    Text waveText, healthText, currencyText, rightClickText;
     private GameObject towerImage= null;
     Text towerName, upgradeLevel, upgradeCost;
     GameManager gm;
     public Transform infoCard;
+    public BoxCollider2D infoCardColl;
 
     private static bool displayCard = false;
     
@@ -52,7 +53,11 @@ public class UIController : MonoBehaviour {
             ResetTowerUI();
         }
 
+        waveText.text = "Wave: "+ WaveSpawner.GetWaveText();
         healthText.text = "Base Health: " + gm.GetCurrentHealth() + "/" + gm.GetMaxHealth();
+        currencyText.text = "Currency: " + gm.GetCurrency();
+
+        
         if(towerImage != null)
         {
             Vector3 v3 = Input.mousePosition;
@@ -67,6 +72,7 @@ public class UIController : MonoBehaviour {
         }
         if (displayCard)
         {
+            infoCardColl.enabled = true;
             infoCard.gameObject.SetActive(true);
             towerName.text = MouseRay.lastTower.GetName();
             upgradeLevel.text = "Upgrade Level: " + MouseRay.lastTower.GetUpgradeLevel();
@@ -74,6 +80,7 @@ public class UIController : MonoBehaviour {
         }
         else
         {
+            infoCardColl.enabled = false;
             infoCard.gameObject.SetActive(false);
         }
 	}
