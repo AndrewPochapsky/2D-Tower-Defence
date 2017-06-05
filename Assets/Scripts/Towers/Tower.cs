@@ -20,7 +20,7 @@ public class Tower : MonoBehaviour {
     protected Enemy target;
     
     protected Transform cannon;
-    private TowerRange range;
+    protected TowerRange range;
     
 
 
@@ -38,6 +38,7 @@ public class Tower : MonoBehaviour {
         {
             Fire();
         }
+        
     }
 
     protected void Remove()
