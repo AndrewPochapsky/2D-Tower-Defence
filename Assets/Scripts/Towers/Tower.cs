@@ -17,9 +17,9 @@ public class Tower : MonoBehaviour {
     protected int UpgradeCost { get; set; }
     protected TowerType.Type Type { get; set; }
 
-    private Enemy target;
+    protected Enemy target;
     
-    private Transform cannon;
+    protected Transform cannon;
     private TowerRange range;
     
 
@@ -63,7 +63,7 @@ public class Tower : MonoBehaviour {
         UpgradeLevel = upgradeLevel;
         UpgradeCost = upgradeCost;
     }
-    private void Fire()
+    protected virtual void Fire()
     {
         //print("New Next Fire: " + NextFire);
         if (Time.time > NextFire)
