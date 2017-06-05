@@ -32,6 +32,7 @@ public class LaserTower : Tower {
         else
         {
             laser.gameObject.SetActive(false);
+            laser.SetDealingDamage(false);
         }
     }
 
