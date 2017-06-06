@@ -9,7 +9,7 @@ public class LaserTower : Tower {
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150);
+        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 1);
         proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
         proj.SetActive(false);
         laser = proj.GetComponent<Laser>();
@@ -19,12 +19,12 @@ public class LaserTower : Tower {
 
     protected override void Update()
     {
-        target = range.GetEnemy();
+        targets = range.GetEnemies();
         
     }
     private void LateUpdate()
     {
-        if (target != null)
+        if (targets[0] != null)
         {
             print("firing in late update");
             Fire();
@@ -41,7 +41,7 @@ public class LaserTower : Tower {
     {
         //fire laser at it, deal damage overtime
         laser.gameObject.SetActive(true);
-        laser.SetTarget(target.transform);
+        laser.SetTarget(targets[0].transform);
 
        
     }
