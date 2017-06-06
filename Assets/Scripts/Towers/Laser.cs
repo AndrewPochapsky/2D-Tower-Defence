@@ -5,24 +5,36 @@ using UnityEngine;
 public class Laser : MonoBehaviour {
 
     int damage;
-    float time = 2;
+    
     Transform startingLoc, target;
     LineRenderer laser;
     bool dealingDamage = false;
 	// Use this for initialization
 	void Start () {
         laser = GetComponent<LineRenderer>();
+       
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
+        if (target == null)
+        {
+            gameObject.SetActive(false);
+
+        }
+        else
+        {
+            print("target is not null");
+        }
         laser.SetPosition(0, startingLoc.position);
-        laser.SetPosition(1, target.position);
-        print("Time: " + time);
-        if (!dealingDamage)
+        if(target!=null)
+            laser.SetPosition(1, target.position);
+        
+        if (target!=null && !dealingDamage)
         {
             StartCoroutine(DealDamage());
         }
+        //print("Target: " + target.name);
 	}
 
     public void SetDamage(int damage)
@@ -32,6 +44,10 @@ public class Laser : MonoBehaviour {
     public void SetStart(Transform start)
     {
         startingLoc = start;
+    }
+    public Transform GetTarget()
+    {
+        return target;
     }
     public void SetTarget(Transform end)
     {

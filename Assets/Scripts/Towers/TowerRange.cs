@@ -19,7 +19,7 @@ public class TowerRange : MonoBehaviour {
         return detectedEnemies;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.GetComponent<Enemy>())
@@ -41,8 +41,9 @@ public class TowerRange : MonoBehaviour {
         if (collision.GetComponent<Enemy>())
         {
             int index = Array.IndexOf(detectedEnemies, collision.GetComponent<Enemy>());
+            collision.GetComponent<Enemy>().SetTargetedByLaser(false);
             detectedEnemies[index] = null;
-            print("enemy getting set to null");
+            //need to find  way to update the laser's final transform
         }
     }
 

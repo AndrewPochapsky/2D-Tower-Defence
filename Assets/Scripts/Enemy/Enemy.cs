@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
+    protected bool TargetedByLaser = false;
 
     private Rigidbody2D rb;
     private List<Transform> waypoints;
@@ -56,6 +57,14 @@ public class Enemy : MonoBehaviour {
     public string GetHealthString()
     {
         return CurrentHealth + "/" + MaxHealth;
+    }
+    public bool IsTargetedByLaser()
+    {
+        return TargetedByLaser;
+    }
+    public void SetTargetedByLaser(bool value)
+    {
+        TargetedByLaser = value;
     }
 
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
@@ -126,7 +135,8 @@ public class Enemy : MonoBehaviour {
 
     public void DealDamage(int damage)
     {
-        print("damage being delt");
+        TargetedByLaser = true;
+
         CurrentHealth -= damage;
     }
    

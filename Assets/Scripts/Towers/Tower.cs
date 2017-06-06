@@ -114,5 +114,24 @@ public class Tower : MonoBehaviour {
     {
         return UpgradeCost;
     }
-  
+    //TODO maybe make this just return the enemy instead of index
+    protected Enemy GetTargetableEnemy()
+    {
+
+        for(int i =0; i < NumOfTargets; i++)
+        {
+            if (targets[i] != null)
+            {
+                if (!targets[i].IsTargetedByLaser())
+                {
+                    return targets[i];
+                }
+            }
+            
+        }
+
+        return null;
+    }
+
+
 }

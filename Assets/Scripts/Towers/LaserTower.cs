@@ -5,43 +5,69 @@ using UnityEngine;
 public class LaserTower : Tower {
 
     GameObject proj;
-    Laser laser;
+    Laser[] laser;
+    int tempCount = 0;
 	// Use this for initialization
 	protected override void Start () {
+        
+        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 2);
         base.Start();
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 1);
-        proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
-        proj.SetActive(false);
-        laser = proj.GetComponent<Laser>();
-        laser.SetDamage(2);
-        laser.SetStart(cannon);
+        print("num of targets :" + NumOfTargets);
+        laser = new Laser[NumOfTargets];
+        for(int i = 0; i < NumOfTargets; i++)
+        {
+            proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
+            print("projectile: " + proj.name);
+            laser[i] = proj.GetComponent<Laser>();
+            laser[i].SetDamage(2);
+            laser[i].SetStart(cannon);
+            proj.SetActive(false);
+        }
+       
+        
     }
 
     protected override void Update()
     {
         targets = range.GetEnemies();
+        foreach(Enemy enemy in targets)
+        {
+            if(enemy != null)
+            {
+                tempCount++;
+            }
+        }
+        print("Temp count: " + tempCount);
+        tempCount = 0;
         
     }
     private void LateUpdate()
     {
-        if (targets[0] != null)
-        {
-            print("firing in late update");
-            Fire();
-        }
-        else
-        {
-            laser.gameObject.SetActive(false);
-            laser.SetDealingDamage(false);
-        }
+        Fire();
+       
     }
 
 
     protected override void Fire()
     {
         //fire laser at it, deal damage overtime
-        laser.gameObject.SetActive(true);
-        laser.SetTarget(targets[0].transform);
+
+        for(int i = 0; i< laser.Length; i++)
+        {
+            if (laser[i].GetTarget() == null && GetTargetableEnemy()!=null)
+            {
+                laser[i].gameObject.SetActive(true);
+                Enemy enemy = GetTargetableEnemy();
+                if (enemy != null)
+                {
+                    enemy.SetTargetedByLaser(true);
+                    laser[i].SetTarget(enemy.transform);
+                }
+               
+            }
+        }
+
+       
 
        
     }
