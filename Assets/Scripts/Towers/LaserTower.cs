@@ -11,7 +11,7 @@ public class LaserTower : Tower {
 	// Use this for initialization
 	protected override void Start () {
         
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 2);
+        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 3);
         base.Start();
         print("num of targets :" + NumOfTargets);
         laser = new Laser[NumOfTargets];
@@ -90,6 +90,7 @@ public class LaserTower : Tower {
             if (_laser.GetTarget()!=null && !targets.Contains(_laser.GetTarget().GetComponent<Enemy>()))
             {
                 _laser.SetTarget(null);
+                _laser.SetDealingDamage(false);
             }
         }
         
