@@ -5,13 +5,21 @@ using System.Linq;
 
 public class LaserTower : Tower {
 
+    public static int buildCost = 600;
+
     GameObject proj;
     Laser[] laser;
     int tempCount = 0;
-	// Use this for initialization
-	protected override void Start () {
+
+    private void Awake()
+    {
+        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 150, 3);
+    }
+
+    // Use this for initialization
+    protected override void Start () {
         
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 3);
+      
         base.Start();
         print("num of targets :" + NumOfTargets);
         laser = new Laser[NumOfTargets];

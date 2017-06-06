@@ -48,6 +48,7 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        CheckIfCanBuild();
         if (Input.GetMouseButtonDown(1)&& towerImage!=null)
         {
             ResetTowerUI();
@@ -122,4 +123,34 @@ public class UIController : MonoBehaviour {
     {
         displayCard = value;
     }
+    //TODO check this only when there is a currency change
+    private void CheckIfCanBuild()
+    {
+        foreach(Button button in buttons)
+        {
+            string tag = button.tag;
+            int buildCost=0;
+            switch (tag)
+            {
+                case "ARROW":
+                    buildCost = ArrowTower.buildCost;
+                    break;
+                case "LASER":
+                    buildCost = LaserTower.buildCost;
+                    break;
+                case "CANNON":
+                    buildCost = CannonTower.buildCost;
+                    break;
+            }
+            if(buildCost > gm.GetCurrency())
+            {
+                button.interactable = false;
+            }
+            else
+            {
+                button.interactable = true;
+            }
+        }
+    }
+
 }

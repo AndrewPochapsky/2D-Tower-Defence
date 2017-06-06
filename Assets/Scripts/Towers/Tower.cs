@@ -114,8 +114,12 @@ public class Tower : MonoBehaviour {
     {
         return UpgradeCost;
     }
+    public int GetBuildCost()
+    {
+        return BuildCost;
+    }
     //TODO maybe make this just return the enemy instead of index
-    protected Enemy GetTargetableEnemy()
+    /*protected Enemy GetTargetableEnemy()
     {
 
         for(int i =0; i < NumOfTargets; i++)
@@ -131,7 +135,7 @@ public class Tower : MonoBehaviour {
         }
 
         return null;
-    }
+    }*/
 
 
 }

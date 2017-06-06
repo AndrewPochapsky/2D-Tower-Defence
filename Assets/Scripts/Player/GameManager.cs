@@ -37,5 +37,9 @@ public class GameManager : MonoBehaviour {
     {
         return currencyAmount;
     }
+    public void DepleteCurrency(int amount)
+    {
+        currencyAmount -= amount;
+    }
 
 }

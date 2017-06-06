@@ -26,11 +26,8 @@ public class MouseRay : MonoBehaviour {
             print("Raycasting: "+hit.collider.name);
         if (hit.collider!= null)
         {
-
             CheckIfDisplayTowerInfo(hit);
             CheckIfBuildTower(hit);
-
-
 
         }
         else
