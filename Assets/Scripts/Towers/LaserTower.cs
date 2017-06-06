@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LaserTower : Tower {
 
@@ -30,15 +31,7 @@ public class LaserTower : Tower {
     protected override void Update()
     {
         targets = range.GetEnemies();
-        foreach(Enemy enemy in targets)
-        {
-            if(enemy != null)
-            {
-                tempCount++;
-            }
-        }
-        print("Temp count: " + tempCount);
-        tempCount = 0;
+        CheckIfEnemyOutOfRange();
         
     }
     private void LateUpdate()
@@ -71,4 +64,36 @@ public class LaserTower : Tower {
 
        
     }
+    private Enemy GetTargetableEnemy()
+    {
+
+        for (int i = 0; i < NumOfTargets; i++)
+        {
+            if (targets[i] != null)
+            {
+                if (!targets[i].IsTargetedByLaser())
+                {
+                    return targets[i];
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+
+    private void CheckIfEnemyOutOfRange()
+    {
+        foreach(Laser _laser in laser)
+        {
+            if (_laser.GetTarget()!=null && !targets.Contains(_laser.GetTarget().GetComponent<Enemy>()))
+            {
+                _laser.SetTarget(null);
+            }
+        }
+        
+    }
+
+
 }
