@@ -1,25 +1,100 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LaserTower : Tower {
 
+    GameObject proj;
+    Laser[] laser;
+    int tempCount = 0;
 	// Use this for initialization
 	protected override void Start () {
+        
+        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150, 3);
         base.Start();
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, 600, 1, 150);
+        print("num of targets :" + NumOfTargets);
+        laser = new Laser[NumOfTargets];
+        for(int i = 0; i < NumOfTargets; i++)
+        {
+            proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
+            print("projectile: " + proj.name);
+            laser[i] = proj.GetComponent<Laser>();
+            laser[i].SetDamage(2);
+            laser[i].SetStart(cannon);
+            proj.SetActive(false);
+        }
+       
+        
     }
-	
-	// Update is called once per frame
-	protected override void Update () {
-        base.Update();
-	}
+
+    protected override void Update()
+    {
+        targets = range.GetEnemies();
+        CheckIfEnemyOutOfRange();
+        
+    }
+    private void LateUpdate()
+    {
+        Fire();
+       
+    }
+
 
     protected override void Fire()
     {
-        if (target != null)
+        //fire laser at it, deal damage overtime
+
+        for(int i = 0; i< laser.Length; i++)
         {
-            //fire laser at it, deal damage overtime
+            if (laser[i].GetTarget() == null && GetTargetableEnemy()!=null)
+            {
+                laser[i].gameObject.SetActive(true);
+                Enemy enemy = GetTargetableEnemy();
+                if (enemy != null)
+                {
+                    enemy.SetTargetedByLaser(true);
+                    laser[i].SetTarget(enemy.transform);
+                }
+               
+            }
         }
+
+       
+
+       
     }
+    private Enemy GetTargetableEnemy()
+    {
+
+        for (int i = 0; i < NumOfTargets; i++)
+        {
+            if (targets[i] != null)
+            {
+                if (!targets[i].IsTargetedByLaser())
+                {
+                    return targets[i];
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+
+    private void CheckIfEnemyOutOfRange()
+    {
+        foreach(Laser _laser in laser)
+        {
+            if (_laser.GetTarget()!=null && !targets.Contains(_laser.GetTarget().GetComponent<Enemy>()))
+            {
+                _laser.SetTarget(null);
+                _laser.SetDealingDamage(false);
+            }
+        }
+        
+    }
+
+
 }

@@ -10,34 +10,44 @@ public class Tower : MonoBehaviour {
     protected float FireRate { get; set; }
     protected float NextFire { get; set; }
     protected float ProjectileSpeed { get; set; }
-   
+    protected int NumOfTargets { get; set; }
 
     protected int BuildCost { get; set; }
     protected int UpgradeLevel { get; set; }
     protected int UpgradeCost { get; set; }
     protected TowerType.Type Type { get; set; }
 
-    protected Enemy target;
+    protected Enemy[] targets;
     
     protected Transform cannon;
-    private TowerRange range;
+    protected TowerRange range;
     
 
 
     protected virtual void Start()
     {
         range = transform.GetChild(1).GetComponent<TowerRange>();
+        targets = new Enemy[NumOfTargets];
+        range.SetNumOfTargets(NumOfTargets);
         cannon = transform.GetChild(0).transform;
+       
+        
     }
 
     protected virtual void Update()
     {
-        target = range.GetEnemy();
+        targets = range.GetEnemies();
+        print("Targets count: " + targets.Length);
         //print("Next Fire: " + NextFire);
-       if(target != null)
+        if (targets.Length == 1)
         {
-            Fire();
+            if (targets[0] != null)
+            {
+                Fire();
+            }
         }
+       
+        
     }
 
     protected void Remove()
@@ -51,7 +61,7 @@ public class Tower : MonoBehaviour {
         UpgradeLevel++;
     }
 
-    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost)
+    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost, int numOfTargets)
     {
         Type = type;
         Name = name;
@@ -62,10 +72,12 @@ public class Tower : MonoBehaviour {
         BuildCost = buildCost;
         UpgradeLevel = upgradeLevel;
         UpgradeCost = upgradeCost;
+        NumOfTargets = numOfTargets;
     }
     protected virtual void Fire()
     {
         //print("New Next Fire: " + NextFire);
+        
         if (Time.time > NextFire)
         {
             GameObject obj = Instantiate(Resources.Load("Projectiles/" + Type), cannon.position, cannon.rotation) as GameObject;
@@ -74,7 +86,7 @@ public class Tower : MonoBehaviour {
             projectile.SetDamage(Damage);
             projectile.SetDamageSpread(DamageSpread);
             projectile.SetSpeed(ProjectileSpeed);
-            projectile.SetTarget(target.transform);
+            projectile.SetTarget(targets[0].transform);
             
             NextFire = Time.time + FireRate;
             
@@ -102,5 +114,24 @@ public class Tower : MonoBehaviour {
     {
         return UpgradeCost;
     }
-  
+    //TODO maybe make this just return the enemy instead of index
+    protected Enemy GetTargetableEnemy()
+    {
+
+        for(int i =0; i < NumOfTargets; i++)
+        {
+            if (targets[i] != null)
+            {
+                if (!targets[i].IsTargetedByLaser())
+                {
+                    return targets[i];
+                }
+            }
+            
+        }
+
+        return null;
+    }
+
+
 }

@@ -1,37 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class TowerRange : MonoBehaviour {
-    private Enemy detectedEnemy;
+    private Enemy[] detectedEnemies;
+    private int numOfTargets;
 	// Use this for initialization
 	void Start () {
-		
+       
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-    public Enemy GetEnemy()
+    public Enemy[] GetEnemies()
     {
-        return detectedEnemy;
+        return detectedEnemies;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.GetComponent<Enemy>())
         {
-            detectedEnemy = collision.GetComponent<Enemy>();
+            for(int i = 0; i < detectedEnemies.Length; i++)
+            {
+                if(detectedEnemies[i] == null)
+                {
+                    detectedEnemies[i] = collision.GetComponent<Enemy>();
+                    break;
+                }
+            }
             
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+       
         if (collision.GetComponent<Enemy>())
         {
-            detectedEnemy = null;
+            int index = Array.IndexOf(detectedEnemies, collision.GetComponent<Enemy>());
+            collision.GetComponent<Enemy>().SetTargetedByLaser(false);
+            detectedEnemies[index] = null;
+            //need to find  way to update the laser's final transform
+        }
+    }
+
+    public void SetNumOfTargets(int value)
+    {
+        numOfTargets = value;
+        print("setting numOfTargets to " + value);
+        detectedEnemies = new Enemy[numOfTargets];
+        for (int i = 0; i < detectedEnemies.Length; i++)
+        {
+            detectedEnemies[i] = null;
         }
     }
 }
