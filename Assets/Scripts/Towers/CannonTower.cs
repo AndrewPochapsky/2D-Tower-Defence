@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CannonTower : Tower {
-    
-	// Use this for initialization
-	protected override void Start () {
-        SetStats(TowerType.Type.CANNON, "Cannon Tower", 7,1, 1.5f,8, 200, 1, 150, 1);
+
+    public static int buildCost = 200;
+    private void Awake()
+    {
+        SetStats(TowerType.Type.CANNON, "Cannon Tower", 7, 1, 1.5f, 8, buildCost, 1, 150, 1);
+    }
+
+    // Use this for initialization
+    protected override void Start () {
+       
         base.Start();
     }
 	

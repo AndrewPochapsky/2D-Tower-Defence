@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         maxHealth = 50;
         currentHealth = maxHealth;
-        currencyAmount = 500;
+        currencyAmount = 100;
 	}
 
     public int GetMaxHealth()
@@ -36,6 +36,14 @@ public class GameManager : MonoBehaviour {
     public int GetCurrency()
     {
         return currencyAmount;
+    }
+    public void DepleteCurrency(int amount)
+    {
+        currencyAmount -= amount;
+    }
+    public void IncreaseCurrency(int amount)
+    {
+        currencyAmount += amount;
     }
 
 }

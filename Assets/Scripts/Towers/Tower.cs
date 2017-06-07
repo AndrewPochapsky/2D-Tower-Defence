@@ -16,7 +16,7 @@ public class Tower : MonoBehaviour {
     protected int UpgradeLevel { get; set; }
     protected int UpgradeCost { get; set; }
     protected TowerType.Type Type { get; set; }
-
+    protected GameManager gm;
     protected Enemy[] targets;
     
     protected Transform cannon;
@@ -30,6 +30,7 @@ public class Tower : MonoBehaviour {
         targets = new Enemy[NumOfTargets];
         range.SetNumOfTargets(NumOfTargets);
         cannon = transform.GetChild(0).transform;
+        gm = GameObject.FindObjectOfType<GameManager>();
        
         
     }
@@ -55,10 +56,12 @@ public class Tower : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    protected void Upgrade()
+    public void Upgrade()
     {
-        //increase stats
+        //TODO increment stats in some way, maybe make this a virtual function, probs best idea
         UpgradeLevel++;
+        gm.DepleteCurrency(UpgradeCost);
+        
     }
 
     protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost, int numOfTargets)
@@ -114,8 +117,12 @@ public class Tower : MonoBehaviour {
     {
         return UpgradeCost;
     }
+    public int GetBuildCost()
+    {
+        return BuildCost;
+    }
     //TODO maybe make this just return the enemy instead of index
-    protected Enemy GetTargetableEnemy()
+    /*protected Enemy GetTargetableEnemy()
     {
 
         for(int i =0; i < NumOfTargets; i++)
@@ -131,7 +138,7 @@ public class Tower : MonoBehaviour {
         }
 
         return null;
-    }
+    }*/
 
 
 }

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class ArrowTower : Tower {
 
-	// Use this for initialization
-	protected override void Start () {
+    public static int buildCost = 100;
+    private void Awake()
+    {
+        SetStats(TowerType.Type.ARROW, "Arrow Tower", 5, 0, 1, 8, buildCost, 1, 100, 1);
+    }
+
+    // Use this for initialization
+    protected override void Start () {
         
-        SetStats(TowerType.Type.ARROW, "Arrow Tower", 5,0, 1,8, 50, 1, 100, 1);
+       
+        print("Arrow build cost: " + BuildCost);
         base.Start();
     }
 	
