@@ -153,4 +153,12 @@ public class UIController : MonoBehaviour {
         }
     }
 
+    public void DeleteTower()
+    {
+        gm.IncreaseCurrency(MouseRay.lastTower.GetBuildCost() / 2);
+        Destroy(MouseRay.lastTower.gameObject);
+    }
+
+
+
 }
