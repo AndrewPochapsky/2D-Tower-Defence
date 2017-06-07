@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    LevelManager levelManager;
+
     private int maxHealth;
     private int currentHealth;
     private int currencyAmount;
 
     // Use this for initialization
     void Start () {
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
+
         maxHealth = 50;
         currentHealth = maxHealth;
         currencyAmount = 100;
 	}
+
+    private void Update()
+    {
+        if(currentHealth <= 0)
+        {
+            EndGame();
+        }   
+    }
 
     public int GetMaxHealth()
     {
@@ -44,6 +56,11 @@ public class GameManager : MonoBehaviour {
     public void IncreaseCurrency(int amount)
     {
         currencyAmount += amount;
+    }
+
+    private void EndGame()
+    {
+        levelManager.LoadLevel("02End");
     }
 
 }
