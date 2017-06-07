@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour {
     Text waveText, healthText, currencyText, rightClickText;
     private GameObject towerImage= null;
     Text towerName, upgradeLevel, upgradeCost;
+    Button upgradeButton;
     GameManager gm;
     public Transform infoCard;
     public BoxCollider2D infoCardColl;
@@ -33,7 +34,7 @@ public class UIController : MonoBehaviour {
         towerName = infoCard.GetChild(1).GetComponent<Text>();
         upgradeLevel = infoCard.GetChild(2).GetComponent<Text>();
         upgradeCost = infoCard.GetChild(3).GetComponent<Text>();
-
+        upgradeButton = infoCard.GetChild(4).GetComponent<Button>();
         pressedColor = Color.grey;
         for(int i = 0; i < canvas.transform.childCount; i++)
         {
@@ -49,6 +50,7 @@ public class UIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         CheckIfCanBuild();
+        CheckIfCanUpgrade();
         if (Input.GetMouseButtonDown(1)&& towerImage!=null)
         {
             ResetTowerUI();
@@ -152,13 +154,27 @@ public class UIController : MonoBehaviour {
             }
         }
     }
+    private void CheckIfCanUpgrade()
+    {
+        if(MouseRay.lastTower!=null && MouseRay.lastTower.GetUpgradeCost() > gm.GetCurrency())
+        {
+            upgradeButton.interactable = false;
+        }
+        else
+        {
+            upgradeButton.interactable = true;
+        }
+    }
 
     public void DeleteTower()
     {
         gm.IncreaseCurrency(MouseRay.lastTower.GetBuildCost() / 2);
         Destroy(MouseRay.lastTower.gameObject);
     }
-
+    public void UpgradeTower()
+    {
+        MouseRay.lastTower.Upgrade();
+    }
 
 
 }

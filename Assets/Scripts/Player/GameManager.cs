@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         maxHealth = 50;
         currentHealth = maxHealth;
-        currencyAmount = 999999;
+        currencyAmount = 100;
 	}
 
     public int GetMaxHealth()
