@@ -57,4 +57,10 @@ public class TowerRange : MonoBehaviour {
             detectedEnemies[i] = null;
         }
     }
+
+    public void IncreaseRange(float range)
+    {
+        transform.localScale += new Vector3(range, range, 0);
+    }
+
 }

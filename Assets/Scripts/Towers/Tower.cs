@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
+    private static int maxUpgradeLevel = 3;
+
     protected string Name { get; set; }
     protected int Damage { get; set; }
     protected int DamageSpread { get; set; }
@@ -56,7 +58,7 @@ public class Tower : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void Upgrade()
+    public virtual void Upgrade()
     {
         //TODO increment stats in some way, maybe make this a virtual function, probs best idea
         UpgradeLevel++;
@@ -112,6 +114,10 @@ public class Tower : MonoBehaviour {
     public int GetUpgradeLevel()
     {
         return UpgradeLevel;
+    }
+    public static int GetMaxUpgradeLevel()
+    {
+        return maxUpgradeLevel;
     }
     public int GetUpgradeCost()
     {

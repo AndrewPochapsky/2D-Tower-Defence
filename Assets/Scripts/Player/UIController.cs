@@ -78,7 +78,7 @@ public class UIController : MonoBehaviour {
             infoCardColl.enabled = true;
             infoCard.gameObject.SetActive(true);
             towerName.text = MouseRay.lastTower.GetName();
-            upgradeLevel.text = "Upgrade Level: " + MouseRay.lastTower.GetUpgradeLevel();
+            upgradeLevel.text = "Upgrade Level: " + MouseRay.lastTower.GetUpgradeLevel() + "/"+ Tower.GetMaxUpgradeLevel();
             upgradeCost.text = "Upgrade Cost: " + MouseRay.lastTower.GetUpgradeCost();
         }
         else
@@ -156,9 +156,10 @@ public class UIController : MonoBehaviour {
     }
     private void CheckIfCanUpgrade()
     {
-        if(MouseRay.lastTower!=null && MouseRay.lastTower.GetUpgradeCost() > gm.GetCurrency())
+        if(MouseRay.lastTower!=null)
         {
-            upgradeButton.interactable = false;
+            if(MouseRay.lastTower.GetUpgradeCost() > gm.GetCurrency() || MouseRay.lastTower.GetUpgradeLevel()==Tower.GetMaxUpgradeLevel())
+                upgradeButton.interactable = false;
         }
         else
         {
@@ -170,6 +171,9 @@ public class UIController : MonoBehaviour {
     {
         gm.IncreaseCurrency(MouseRay.lastTower.GetBuildCost() / 2);
         Destroy(MouseRay.lastTower.gameObject);
+        MouseRay.lastTower = null;
+        print("Setting info card to invisible");
+        displayCard = false;
     }
     public void UpgradeTower()
     {

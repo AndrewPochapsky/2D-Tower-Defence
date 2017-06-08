@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 
         maxHealth = 50;
         currentHealth = maxHealth;
-        currencyAmount = 100;
+        currencyAmount = 9999;
 	}
 
     private void Update()

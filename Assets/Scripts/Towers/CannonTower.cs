@@ -15,6 +15,15 @@ public class CannonTower : Tower {
        
         base.Start();
     }
-	
-	
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        Damage += 2;
+        DamageSpread += 1;
+        FireRate -= 0.1f;
+        UpgradeCost += 200;
+        range.IncreaseRange(0.25f);
+    }
+
+
 }

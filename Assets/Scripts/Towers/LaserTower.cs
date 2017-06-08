@@ -48,6 +48,13 @@ public class LaserTower : Tower {
        
     }
 
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        Damage += 1;
+        UpgradeCost += 300;
+        range.IncreaseRange(0.5f);
+    }
 
     protected override void Fire()
     {

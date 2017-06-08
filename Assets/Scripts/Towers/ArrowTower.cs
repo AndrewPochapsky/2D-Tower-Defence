@@ -12,10 +12,17 @@ public class ArrowTower : Tower {
 
     // Use this for initialization
     protected override void Start () {
-        
-       
-        print("Arrow build cost: " + BuildCost);
         base.Start();
+    }
+
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        print("arrow tower upgrading");
+        Damage += 2;
+        FireRate -= 0.1f;
+        UpgradeCost += 150;
+        range.IncreaseRange(0.25f);
     }
 	
 	
