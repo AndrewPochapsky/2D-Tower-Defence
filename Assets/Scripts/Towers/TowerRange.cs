@@ -12,14 +12,14 @@ public class TowerRange : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
     public Enemy[] GetEnemies()
     {
         return detectedEnemies;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
 
         if (collision.GetComponent<Enemy>())
@@ -41,6 +41,7 @@ public class TowerRange : MonoBehaviour {
         if (collision.GetComponent<Enemy>())
         {
             int index = Array.IndexOf(detectedEnemies, collision.GetComponent<Enemy>());
+            print("index: " + index);
             collision.GetComponent<Enemy>().SetTargetedByLaser(false);
             detectedEnemies[index] = null;
             //need to find  way to update the laser's final transform
@@ -62,5 +63,6 @@ public class TowerRange : MonoBehaviour {
     {
         transform.localScale += new Vector3(range, range, 0);
     }
+
 
 }

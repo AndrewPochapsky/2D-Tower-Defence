@@ -18,7 +18,7 @@ public class TowerLocation : MonoBehaviour {
 
     public void PlaceTower(TowerType.Type type)
     {
-        if (transform.childCount == 0)
+        if (type!= TowerType.Type.NONE_SELECTED && transform.childCount == 0)
         {
             GameObject tower = Instantiate(Resources.Load("Towers/" + type), transform.position, transform.rotation) as GameObject;
             tower.transform.SetParent(transform);

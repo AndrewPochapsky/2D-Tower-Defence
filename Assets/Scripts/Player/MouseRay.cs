@@ -44,6 +44,7 @@ public class MouseRay : MonoBehaviour {
         if (hit.collider.gameObject.GetComponent<TowerLocation>())
         {
             TowerLocation loc = hit.collider.GetComponent<TowerLocation>();
+           
             loc.PlaceTower(UIController.currentTowerToBuild);
         }
     }
