@@ -140,6 +140,16 @@ public class Enemy : MonoBehaviour {
         CurrentHealth -= damage;
     }
    
+    public void ApplyEffect(Effect effect)
+    {
+        switch (effect)
+        {
+            case Effect.SLOW:
+                //start slow coroutine
+                break;
+            
+        }
+    }
 
 
 

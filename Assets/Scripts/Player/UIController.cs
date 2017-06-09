@@ -22,11 +22,11 @@ public class UIController : MonoBehaviour {
 
     private static bool displayCard = false;
     
-    public static TowerType.Type currentTowerToBuild;
+    public static Type currentTowerToBuild;
 	
 
 	void Start () {
-        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
+        currentTowerToBuild = Type.NONE_SELECTED;
         gm = GameObject.FindObjectOfType<GameManager>();
         buttons = new List<Button>();
         canvas = GameObject.FindObjectOfType<Canvas>();
@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour {
     {
         GameObject button = EventSystem.current.currentSelectedGameObject;
         FindPressedButton(buttons, button.tag);
-        currentTowerToBuild = (TowerType.Type)System.Enum.Parse(typeof(TowerType.Type), button.tag);
+        currentTowerToBuild = (Type)System.Enum.Parse(typeof(Type), button.tag);
         Destroy(towerImage);
         towerImage = Instantiate(Resources.Load("Towers/TowerImages/"+button.tag + "-Image"), Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.rotation) as GameObject;
 
@@ -117,7 +117,7 @@ public class UIController : MonoBehaviour {
     {
         FindPressedButton(buttons,"Bleh");
         rightClickText.gameObject.SetActive(false);
-        currentTowerToBuild = TowerType.Type.NONE_SELECTED;
+        currentTowerToBuild = Type.NONE_SELECTED;
         Destroy(towerImage);
     }
 

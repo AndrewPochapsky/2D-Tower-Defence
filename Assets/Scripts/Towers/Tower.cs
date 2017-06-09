@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour {
     protected int BuildCost { get; set; }
     protected int UpgradeLevel { get; set; }
     protected int UpgradeCost { get; set; }
-    protected TowerType.Type Type { get; set; }
+    protected Type Type { get; set; }
     protected GameManager gm;
     protected Enemy[] targets;
     
@@ -66,7 +66,7 @@ public class Tower : MonoBehaviour {
         
     }
 
-    protected void SetStats(TowerType.Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost, int numOfTargets)
+    protected void SetStats(Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost, int numOfTargets)
     {
         Type = type;
         Name = name;

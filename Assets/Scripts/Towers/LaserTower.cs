@@ -13,7 +13,7 @@ public class LaserTower : Tower {
 
     private void Awake()
     {
-        SetStats(TowerType.Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 150, 3);
+        SetStats(Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 150, 3);
     }
 
     // Use this for initialization
