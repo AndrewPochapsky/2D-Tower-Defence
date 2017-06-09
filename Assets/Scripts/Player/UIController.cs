@@ -91,14 +91,14 @@ public class UIController : MonoBehaviour {
     public void SetCurrentTowerToBuild()
     {
         GameObject button = EventSystem.current.currentSelectedGameObject;
-        FindPressedButton(button.tag);
+        FindPressedButton(buttons, button.tag);
         currentTowerToBuild = (TowerType.Type)System.Enum.Parse(typeof(TowerType.Type), button.tag);
         Destroy(towerImage);
         towerImage = Instantiate(Resources.Load("Towers/TowerImages/"+button.tag + "-Image"), Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.rotation) as GameObject;
 
     }
 
-    private void FindPressedButton(string tag)
+    public void FindPressedButton(List<Button> buttons, string tag)
     {
         foreach(Button button in buttons)
         {
@@ -115,7 +115,7 @@ public class UIController : MonoBehaviour {
 
     public void ResetTowerUI()
     {
-        FindPressedButton("Bleh");
+        FindPressedButton(buttons,"Bleh");
         rightClickText.gameObject.SetActive(false);
         currentTowerToBuild = TowerType.Type.NONE_SELECTED;
         Destroy(towerImage);
