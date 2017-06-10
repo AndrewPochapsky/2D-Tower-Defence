@@ -7,9 +7,11 @@ public class AoeRange : MonoBehaviour {
     private int damage;
     private float fireRate;
     List<Enemy> enemies;
+    EffectManager effectManager;
 	// Use this for initialization
 	void Start () {
         enemies = new List<Enemy>();
+        effectManager = GameObject.FindObjectOfType<EffectManager>();
 	}
 	
 	// Update is called once per frame
@@ -31,8 +33,7 @@ public class AoeRange : MonoBehaviour {
         //slow enemies in cone, display particle effect
         foreach(Enemy enemy in enemies)
         {
-            //slow and deal slight damage enemy.ApplyEffect(enum);
-            //TODO add this method along wi
+            effectManager.ApplyEffect(enemy, EffectManager.EffectType.SLOW);
         }
     }
 

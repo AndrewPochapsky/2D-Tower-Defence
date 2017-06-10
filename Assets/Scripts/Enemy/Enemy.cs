@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public abstract class Enemy : MonoBehaviour {
     
 
     //TODO add an enumerator for types of resistances
@@ -139,16 +139,10 @@ public class Enemy : MonoBehaviour {
 
         CurrentHealth -= damage;
     }
-   
-    public void ApplyEffect(Effect effect)
+
+    public void AlterSpeed(float value)
     {
-        switch (effect)
-        {
-            case Effect.SLOW:
-                //start slow coroutine
-                break;
-            
-        }
+        Speed += value;
     }
 
 

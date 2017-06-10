@@ -12,8 +12,10 @@ public class IceTower : Tower {
     }
 
     protected override void Start () {
+        print("ice tower stuff");
         aoeRange = transform.GetChild(0).GetComponent<AoeRange>();
         aoeRange.SetDamage(Damage);
+        StartCoroutine(AlternatingAttack());
     }
 	
 	// Update is called once per frame
@@ -24,6 +26,13 @@ public class IceTower : Tower {
     protected override void Fire()
     {
         
+    }
+
+    private IEnumerator AlternatingAttack()
+    {
+        yield return new WaitForSeconds(1);
+        print("slowing");
+        StartCoroutine(AlternatingAttack());
     }
 
 }
