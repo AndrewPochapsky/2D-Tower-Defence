@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour {
     protected float Speed { get; set; }
     protected bool TargetedByLaser = false;
 
+    private bool isSlowed = false;
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform waypointsTransform;
@@ -145,7 +146,14 @@ public abstract class Enemy : MonoBehaviour {
         Speed += value;
     }
 
-
+    public bool IsSlowed()
+    {
+        return isSlowed;
+    }
+    public void SetSlowed(bool value)
+    {
+        isSlowed = value;
+    }
 
 
 }

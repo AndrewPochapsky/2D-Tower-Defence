@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 public class AoeRange : MonoBehaviour {
+    
     private int damage;
     private float fireRate;
     List<Enemy> enemies;
@@ -16,7 +17,7 @@ public class AoeRange : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        SlowEnemies();
 	}
 
     public void SetDamage(int value)
@@ -28,12 +29,18 @@ public class AoeRange : MonoBehaviour {
         fireRate = value;
     }
 
-    public void Fire()
+    public void SlowEnemies()
     {
         //slow enemies in cone, display particle effect
         foreach(Enemy enemy in enemies)
         {
-            effectManager.ApplyEffect(enemy, EffectManager.EffectType.SLOW);
+            //effectManager.ApplyEffect(enemy, EffectManager.EffectType.SLOW);
+            if (!enemy.IsSlowed())
+            {
+                enemy.AlterSpeed(-0.5f);
+                enemy.SetSlowed(true);
+            }
+           
         }
     }
 
@@ -54,7 +61,10 @@ public class AoeRange : MonoBehaviour {
         {
             if (enemies.Contains(collision.GetComponent<Enemy>()))
             {
+                
                 enemies.Remove(collision.GetComponent<Enemy>());
+                collision.GetComponent<Enemy>().AlterSpeed(0.5f);
+                collision.GetComponent<Enemy>().SetSlowed(false);
             }
         }
     }

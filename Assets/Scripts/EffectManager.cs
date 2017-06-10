@@ -5,7 +5,7 @@ using UnityEngine;
 public class EffectManager : MonoBehaviour{
 
     public enum EffectType { SLOW};
-
+    private bool effectBeingCast = false;
     public void ApplyEffect(Enemy target, EffectType type)
     {
         switch (type)

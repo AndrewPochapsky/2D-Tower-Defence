@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class IceTower : Tower {
     public static int buildCost = 400;
-    private AoeRange aoeRange; 
-   
+    private AoeRange aoeRange;
+    private ParticleSystem system;
     private void Awake()
     {
         SetStats(Type.ICE, "Ice Tower", 1, 0, 1, 8, buildCost, 1, 300, 3);
     }
 
     protected override void Start () {
-        print("ice tower stuff");
         aoeRange = transform.GetChild(0).GetComponent<AoeRange>();
+        system = transform.GetChild(1).GetComponent<ParticleSystem>();
+        
         aoeRange.SetDamage(Damage);
-        StartCoroutine(AlternatingAttack());
+       // StartCoroutine(AlternatingAttack());
     }
 	
 	// Update is called once per frame
@@ -27,12 +28,15 @@ public class IceTower : Tower {
     {
         
     }
-
+    /*
     private IEnumerator AlternatingAttack()
     {
-        yield return new WaitForSeconds(1);
+        system.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0);
+        system.gameObject.SetActive(true);
         print("slowing");
+        aoeRange.Fire();
         StartCoroutine(AlternatingAttack());
-    }
+    }*/
 
 }
