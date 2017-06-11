@@ -100,7 +100,7 @@ public abstract class Tower : MonoBehaviour {
 
     }
 
-    public void ToggleInfo(bool value)
+    public virtual void ToggleInfo(bool value)
     {
         SpriteRenderer sp = range.GetComponent<SpriteRenderer>();
         sp.enabled = value;

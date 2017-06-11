@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class IceTower : Tower {
     public static int buildCost = 400;
-    private AoeRange aoeRange;
+    private List<AoeRange> aoeRanges;
     private ParticleSystem system;
+    SpriteRenderer towerSP;
     private void Awake()
     {
         SetStats(Type.ICE, "Ice Tower", 1, 0, 1, 8, buildCost, 1, 300, 3);
     }
 
     protected override void Start () {
-        aoeRange = transform.GetChild(0).GetComponent<AoeRange>();
+        //TODO create a method called initialize with all of these generic references if there become more of them
+        gm = GameObject.FindObjectOfType<GameManager>();
+        towerSP = GetComponent<SpriteRenderer>();
+        aoeRanges = new List<AoeRange>();
+        foreach(AoeRange range in transform.GetComponentsInChildren<AoeRange>())
+        {
+            aoeRanges.Add(range);
+            range.SetDamage(Damage);
+        }
         system = transform.GetChild(1).GetComponent<ParticleSystem>();
         
-        aoeRange.SetDamage(Damage);
+        
        // StartCoroutine(AlternatingAttack());
     }
 	
@@ -28,15 +37,17 @@ public class IceTower : Tower {
     {
         
     }
-    /*
-    private IEnumerator AlternatingAttack()
+
+    public override void ToggleInfo(bool value)
     {
-        system.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0);
-        system.gameObject.SetActive(true);
-        print("slowing");
-        aoeRange.Fire();
-        StartCoroutine(AlternatingAttack());
-    }*/
+        foreach(SpriteRenderer sp in GetComponentsInChildren<SpriteRenderer>())
+        {
+            print("ha");
+            sp.enabled = value;
+        }
+        towerSP.enabled = true;
+        UIController.SetDisplayCard(value);
+    }
+
 
 }
