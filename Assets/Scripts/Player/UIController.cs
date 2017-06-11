@@ -170,7 +170,8 @@ public class UIController : MonoBehaviour {
     public void DeleteTower()
     {
         gm.IncreaseCurrency(MouseRay.lastTower.GetBuildCost() / 2);
-        Destroy(MouseRay.lastTower.gameObject);
+        
+        MouseRay.lastTower.Remove();
         MouseRay.lastTower = null;
         print("Setting info card to invisible");
         displayCard = false;

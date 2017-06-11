@@ -53,7 +53,7 @@ public abstract class Tower : MonoBehaviour {
         
     }
 
-    protected void Remove()
+    public virtual void Remove()
     {
         Destroy(gameObject);
     }

@@ -22,7 +22,7 @@ public class TowerRange : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.GetComponent<Enemy>())
+        if(transform.parent.GetComponent<LaserTower>()&&collision.GetComponent<Enemy>())
         {
             for(int i = 0; i < detectedEnemies.Length; i++)
             {
@@ -35,6 +35,23 @@ public class TowerRange : MonoBehaviour {
             
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!transform.parent.GetComponent<LaserTower>() && collision.GetComponent<Enemy>())
+        {
+            for (int i = 0; i < detectedEnemies.Length; i++)
+            {
+                if (detectedEnemies[i] == null)
+                {
+                    detectedEnemies[i] = collision.GetComponent<Enemy>();
+                    break;
+                }
+            }
+
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
        

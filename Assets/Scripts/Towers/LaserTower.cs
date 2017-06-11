@@ -8,7 +8,7 @@ public class LaserTower : Tower {
     public static int buildCost = 600;
 
     GameObject proj;
-    Laser[] laser;
+    Laser[] lasers;
     int tempCount = 0;
 
     private void Awake()
@@ -22,14 +22,14 @@ public class LaserTower : Tower {
       
         base.Start();
         print("num of targets :" + NumOfTargets);
-        laser = new Laser[NumOfTargets];
+        lasers = new Laser[NumOfTargets];
         for(int i = 0; i < NumOfTargets; i++)
         {
             proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
             print("projectile: " + proj.name);
-            laser[i] = proj.GetComponent<Laser>();
-            laser[i].SetDamage(2);
-            laser[i].SetStart(cannon);
+            lasers[i] = proj.GetComponent<Laser>();
+            lasers[i].SetDamage(2);
+            lasers[i].SetStart(cannon);
             proj.SetActive(false);
         }
        
@@ -56,20 +56,29 @@ public class LaserTower : Tower {
         range.IncreaseRange(0.5f);
     }
 
+    public override void Remove()
+    {
+        foreach(Laser laser in lasers)
+        {
+            Destroy(laser.gameObject);
+        }
+        base.Remove();
+    }
+
     protected override void Fire()
     {
         //fire laser at it, deal damage overtime
 
-        for(int i = 0; i< laser.Length; i++)
+        for(int i = 0; i< lasers.Length; i++)
         {
-            if (laser[i].GetTarget() == null && GetTargetableEnemy()!=null)
+            if (lasers[i].GetTarget() == null && GetTargetableEnemy()!=null)
             {
-                laser[i].gameObject.SetActive(true);
+                lasers[i].gameObject.SetActive(true);
                 Enemy enemy = GetTargetableEnemy();
                 if (enemy != null)
                 {
                     enemy.SetTargetedByLaser(true);
-                    laser[i].SetTarget(enemy.transform);
+                    lasers[i].SetTarget(enemy.transform);
                 }
                
             }
@@ -100,7 +109,7 @@ public class LaserTower : Tower {
 
     private void CheckIfEnemyOutOfRange()
     {
-        foreach(Laser _laser in laser)
+        foreach(Laser _laser in lasers)
         {
             if (_laser.GetTarget()!=null && !targets.Contains(_laser.GetTarget().GetComponent<Enemy>()))
             {
