@@ -20,10 +20,11 @@ public abstract class Enemy : MonoBehaviour {
     private Transform waypointsTransform;
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
+    private StatusIndicator statusIndicator;
 
 	// Use this for initialization
 	protected virtual void Start () {
-
+        statusIndicator = GetComponent<StatusIndicator>();
         waypointsTransform = GameObject.FindGameObjectWithTag("Waypoints").transform;
         rb = GetComponent<Rigidbody2D>();
         waypoints = new List<Transform>();
@@ -59,6 +60,14 @@ public abstract class Enemy : MonoBehaviour {
     {
         return CurrentHealth + "/" + MaxHealth;
     }
+    public int GetCurrentHealth()
+    {
+        return CurrentHealth;
+    }
+    public int GetMaxHealth()
+    {
+        return MaxHealth;
+    }
     public bool IsTargetedByLaser()
     {
         return TargetedByLaser;
@@ -67,7 +76,7 @@ public abstract class Enemy : MonoBehaviour {
     {
         TargetedByLaser = value;
     }
-
+    
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
     {
         Name = name; 
@@ -119,6 +128,7 @@ public abstract class Enemy : MonoBehaviour {
         {
             DamageSpread spread = collision.GetComponent<DamageSpread>();
             CurrentHealth -= spread.GetDamage();
+            statusIndicator.SetHealth();
         }
 
         if (collision.GetComponent<Projectile>())
@@ -126,6 +136,7 @@ public abstract class Enemy : MonoBehaviour {
             Projectile proj = collision.GetComponent<Projectile>();
             CurrentHealth -= proj.GetDamage();
             //print("taking damage");
+            statusIndicator.SetHealth();
             Destroy(collision.gameObject);
            
         }
@@ -139,6 +150,7 @@ public abstract class Enemy : MonoBehaviour {
         TargetedByLaser = true;
 
         CurrentHealth -= damage;
+        statusIndicator.SetHealth();
     }
 
     public void AlterSpeed(float value)

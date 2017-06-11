@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StatusIndicator : MonoBehaviour {
 
+    [SerializeField]
+    private RectTransform healthBar;
     public Text healthText;
     Canvas canvas;
     Enemy enemy;
@@ -19,4 +21,12 @@ public class StatusIndicator : MonoBehaviour {
 	void Update () {
         healthText.text = enemy.GetHealthString();
 	}
+
+
+    public void SetHealth()
+    {
+        float value = (float)enemy.GetCurrentHealth() / enemy.GetMaxHealth();
+        healthBar.localScale = new Vector3(value, healthBar.localScale.y, healthBar.localScale.z);
+    }
+
 }
