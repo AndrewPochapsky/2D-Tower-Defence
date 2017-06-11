@@ -1,0 +1,2 @@
+﻿public enum Type { NONE_SELECTED, ARROW, CANNON, WIZARD, LASER, ICE };
+

@@ -7,7 +7,7 @@ public class ArrowTower : Tower {
     public static int buildCost = 100;
     private void Awake()
     {
-        SetStats(TowerType.Type.ARROW, "Arrow Tower", 5, 0, 1, 8, buildCost, 1, 100, 1);
+        SetStats(Type.ARROW, "Arrow Tower", 5, 0, 1, 8, buildCost, 1, 100, 1);
     }
 
     // Use this for initialization

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public abstract class Enemy : MonoBehaviour {
     
 
     //TODO add an enumerator for types of resistances
@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     protected float Speed { get; set; }
     protected bool TargetedByLaser = false;
 
+    private bool isSlowed = false;
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform waypointsTransform;
@@ -139,9 +140,20 @@ public class Enemy : MonoBehaviour {
 
         CurrentHealth -= damage;
     }
-   
 
+    public void AlterSpeed(float value)
+    {
+        Speed += value;
+    }
 
+    public bool IsSlowed()
+    {
+        return isSlowed;
+    }
+    public void SetSlowed(bool value)
+    {
+        isSlowed = value;
+    }
 
 
 }

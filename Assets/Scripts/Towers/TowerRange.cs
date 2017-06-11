@@ -18,8 +18,8 @@ public class TowerRange : MonoBehaviour {
     {
         return detectedEnemies;
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
+    //TODO make on ontriggerstay thing for towers other than laser
+    private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.GetComponent<Enemy>())
