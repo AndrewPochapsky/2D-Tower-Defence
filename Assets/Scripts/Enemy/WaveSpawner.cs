@@ -9,7 +9,7 @@ using UnityEngine;
 [System.Serializable]
 public class Wave
 {
-    public Enemy enemy1, enemy2, enemy3, enemy4;
+    public GameObject enemy1, enemy2, enemy3, enemy4;
     public float spawnTimer;
     public int numOfEnemiesToSpawn;
     [HideInInspector]
@@ -25,7 +25,7 @@ public class WaveSpawner : MonoBehaviour {
     public Wave[] waves;
     private static int waveNum= 1;
     private static int totalWaves;
-    private Enemy[] enemies;
+    private GameObject[] enemies;
     private int numOfEnemies = 4;
     public Transform spawnPoint;
     float searchCountDown = 1f;
@@ -76,7 +76,7 @@ public class WaveSpawner : MonoBehaviour {
         //TODO: There must be a better way to do this
         if (!currentWave.initialized)
         {
-            enemies = new Enemy[numOfEnemies];
+            enemies = new GameObject[numOfEnemies];
             enemies[0] = currentWave.enemy1;
             enemies[1] = currentWave.enemy2;
             enemies[2] = currentWave.enemy3;
@@ -84,7 +84,7 @@ public class WaveSpawner : MonoBehaviour {
             currentWave.initialized = true;
         }
 
-        foreach(Enemy enemy in enemies)
+        foreach(GameObject enemy in enemies)
         {
             
             if (enemy != null)
