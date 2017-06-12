@@ -29,7 +29,7 @@ public class LaserTower : Tower {
 
             lasers[i] = proj.GetComponent<Laser>();
             lasers[i].SetDamage(2);
-            lasers[i].SetStart(cannon);
+            //lasers[i].SetStart(cannon);
             lasers[i].transform.SetParent(this.transform);
             proj.SetActive(false);
         }
@@ -67,7 +67,7 @@ public class LaserTower : Tower {
         base.Remove();
     }
 
-    protected override void Fire()
+    protected void Fire()
     {
         //fire laser at it, deal damage overtime
 

@@ -20,10 +20,10 @@ public class TowerLocation : MonoBehaviour {
     {
         if (type!= Type.NONE_SELECTED && transform.childCount == 0)
         {
-            GameObject tower = Instantiate(Resources.Load("Towers/" + type), transform.position, transform.rotation) as GameObject;
+            GameObject tower = Instantiate(Resources.Load("Towers/" + type  + "Prefab"), transform.position, transform.rotation) as GameObject;
             tower.transform.SetParent(transform);
-            
-            gm.DepleteCurrency(tower.GetComponent<Tower>().GetBuildCost());
+            tower.transform.localPosition = new Vector3(0, 3.2f, 0);
+            gm.DepleteCurrency(tower.transform.GetChild(1).GetComponent<Tower>().GetBuildCost());
             
             ui.ResetTowerUI();
         }

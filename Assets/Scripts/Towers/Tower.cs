@@ -21,32 +21,37 @@ public abstract class Tower : MonoBehaviour {
     protected GameManager gm;
     protected Enemy[] targets;
     
-    protected Transform cannon;
+    public Cannon cannon;
     protected TowerRange range;
     
 
 
     protected virtual void Start()
     {
-        range = transform.GetChild(1).GetComponent<TowerRange>();
+        range = transform.GetChild(0).GetComponent<TowerRange>();
         targets = new Enemy[NumOfTargets];
         range.SetNumOfTargets(NumOfTargets);
-        cannon = transform.GetChild(0).transform;
+        
         gm = GameObject.FindObjectOfType<GameManager>();
-       
+        cannon.Damage = Damage;
+        cannon.DamageSpread = DamageSpread;
+        cannon.FireRate = FireRate;
+        cannon.NextFire = NextFire;
+        cannon.type = Type;
+        cannon.ProjectileSpeed = ProjectileSpeed;
         
     }
 
     protected virtual void Update()
     {
         targets = range.GetEnemies();
-        print("Targets count: " + targets.Length);
+        //print("Targets count: " + targets.Length);
         //print("Next Fire: " + NextFire);
         if (targets.Length == 1)
         {
             if (targets[0] != null)
             {
-                Fire();
+                cannon.Fire();
             }
         }
        
@@ -78,7 +83,7 @@ public abstract class Tower : MonoBehaviour {
         UpgradeLevel = upgradeLevel;
         UpgradeCost = upgradeCost;
         NumOfTargets = numOfTargets;
-    }
+    }/*
     protected virtual void Fire()
     {
         //print("New Next Fire: " + NextFire);
@@ -98,8 +103,11 @@ public abstract class Tower : MonoBehaviour {
         }
 
 
+    }*/
+    public Enemy GetTarget()
+    {
+        return targets[0];
     }
-
     public virtual void ToggleInfo(bool value)
     {
         SpriteRenderer sp = range.GetComponent<SpriteRenderer>();

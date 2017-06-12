@@ -33,10 +33,7 @@ public class IceTower : Tower {
 		
 	}
 
-    protected override void Fire()
-    {
-        
-    }
+   
 
     public override void ToggleInfo(bool value)
     {
