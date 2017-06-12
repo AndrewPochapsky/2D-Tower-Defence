@@ -12,8 +12,21 @@ public abstract class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
-    protected bool TargetedByLaser = false;
 
+    public bool Targeted
+    {
+        get
+        {
+            return targeted;
+        }
+
+        set
+        {
+            targeted = value;
+        }
+    }
+
+    private bool targeted = false;
     private bool isSlowed = false;
     private Rigidbody2D rb;
     private List<Transform> waypoints;
@@ -21,9 +34,12 @@ public abstract class Enemy : MonoBehaviour {
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
     private StatusIndicator statusIndicator;
+    public List<Transform> laserTowers;
+
 
 	// Use this for initialization
 	protected virtual void Start () {
+        laserTowers = new List<Transform>();
         statusIndicator = GetComponent<StatusIndicator>();
         waypointsTransform = GameObject.FindGameObjectWithTag("Waypoints").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -45,6 +61,7 @@ public abstract class Enemy : MonoBehaviour {
         {
             Die();
         }
+        print("num of towers targeting: " + laserTowers.Count);
 
 	}
    
@@ -68,14 +85,11 @@ public abstract class Enemy : MonoBehaviour {
     {
         return MaxHealth;
     }
-    public bool IsTargetedByLaser()
+    public float GetSpeed()
     {
-        return TargetedByLaser;
+        return Speed;
     }
-    public void SetTargetedByLaser(bool value)
-    {
-        TargetedByLaser = value;
-    }
+   
     
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
     {
@@ -147,8 +161,8 @@ public abstract class Enemy : MonoBehaviour {
 
     public void DealDamage(int damage)
     {
-        TargetedByLaser = true;
 
+        targeted = true;
         CurrentHealth -= damage;
         statusIndicator.SetHealth();
     }

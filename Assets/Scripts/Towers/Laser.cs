@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Laser : MonoBehaviour {
 
@@ -20,21 +21,24 @@ public class Laser : MonoBehaviour {
         if (target == null)
         {
             gameObject.SetActive(false);
-
+            //print("target is null");
         }
-        else
-        {
-            print("target is not null");
-        }
+       
         laser.SetPosition(0, startingLoc.position);
-        if(target!=null)
+        if (target != null)
+        {
             laser.SetPosition(1, target.position);
+            print("settting laser position");
+        }
+            
         
         if (target!=null && !dealingDamage)
         {
             StartCoroutine(DealDamage());
         }
-        //print("Target: " + target.name);
+       
+     
+        
 	}
 
     public void SetDamage(int damage)
@@ -61,11 +65,20 @@ public class Laser : MonoBehaviour {
     private IEnumerator DealDamage()
     {
         dealingDamage = true;
-        target.gameObject.GetComponent<Enemy>().DealDamage(damage);
+        Enemy enemy = target.gameObject.GetComponent<Enemy>();
+        enemy.DealDamage(damage);
+        if(!enemy.laserTowers.Contains(transform.parent))
+            enemy.laserTowers.Add(transform.parent);
         yield return new WaitForSeconds(1);
         StartCoroutine(DealDamage());
 
     }
+
+    private bool CanTarget()
+    {
+        return !target.gameObject.GetComponent<Enemy>().laserTowers.Contains(transform.parent);
+    }
+
 
 
 }

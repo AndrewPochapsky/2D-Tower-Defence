@@ -37,7 +37,7 @@ public class AoeRange : MonoBehaviour {
             //effectManager.ApplyEffect(enemy, EffectManager.EffectType.SLOW);
             if (!enemy.IsSlowed())
             {
-                enemy.AlterSpeed(-0.5f);
+                enemy.AlterSpeed(enemy.GetSpeed()/-2);
                 enemy.SetSlowed(true);
             }
            
@@ -63,7 +63,7 @@ public class AoeRange : MonoBehaviour {
             {
                 
                 enemies.Remove(collision.GetComponent<Enemy>());
-                collision.GetComponent<Enemy>().AlterSpeed(0.5f);
+                collision.GetComponent<Enemy>().AlterSpeed(collision.GetComponent<Enemy>().GetSpeed());
                 collision.GetComponent<Enemy>().SetSlowed(false);
             }
         }

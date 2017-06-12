@@ -70,7 +70,7 @@ public class WaveSpawner : MonoBehaviour {
     private IEnumerator SpawnWave()
     {
         spawnState = SpawnState.SPAWNING;
-        print("SpawnWave: " + waveNum);
+
         //spawnState = SpawnState.SPAWNING;
         Wave currentWave = waves[waveNum-1];
         //TODO: There must be a better way to do this

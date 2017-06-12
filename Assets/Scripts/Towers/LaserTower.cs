@@ -6,7 +6,7 @@ using System.Linq;
 public class LaserTower : Tower {
 
     public static int buildCost = 600;
-
+    //target not being reset i think]
     GameObject proj;
     Laser[] lasers;
     int tempCount = 0;
@@ -21,15 +21,16 @@ public class LaserTower : Tower {
         
       
         base.Start();
-        print("num of targets :" + NumOfTargets);
+
         lasers = new Laser[NumOfTargets];
         for(int i = 0; i < NumOfTargets; i++)
         {
             proj = Instantiate(Resources.Load("Projectiles/" + Type), transform.position, transform.rotation) as GameObject;
-            print("projectile: " + proj.name);
+
             lasers[i] = proj.GetComponent<Laser>();
             lasers[i].SetDamage(2);
             lasers[i].SetStart(cannon);
+            lasers[i].transform.SetParent(this.transform);
             proj.SetActive(false);
         }
        
@@ -40,6 +41,7 @@ public class LaserTower : Tower {
     {
         targets = range.GetEnemies();
         CheckIfEnemyOutOfRange();
+       
         
     }
     private void LateUpdate()
@@ -74,11 +76,16 @@ public class LaserTower : Tower {
             if (lasers[i].GetTarget() == null && GetTargetableEnemy()!=null)
             {
                 lasers[i].gameObject.SetActive(true);
+                print("yes");
                 Enemy enemy = GetTargetableEnemy();
-                if (enemy != null)
+                print(enemy);
+                if (enemy != null && !enemy.laserTowers.Contains(transform))
                 {
-                    enemy.SetTargetedByLaser(true);
+                    print("setting shit");
                     lasers[i].SetTarget(enemy.transform);
+                   
+                    lasers[i].GetTarget().GetComponent<Enemy>().laserTowers.Add(transform);
+                    print("adding");
                 }
                
             }
@@ -95,8 +102,10 @@ public class LaserTower : Tower {
         {
             if (targets[i] != null)
             {
-                if (!targets[i].IsTargetedByLaser())
+                if (!targets[i].laserTowers.Contains(transform))
                 {
+                    print("getting targetable enemy");
+                    //targets[i].laserTowers.Add(transform);
                     return targets[i];
                 }
             }
