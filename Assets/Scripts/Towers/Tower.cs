@@ -60,7 +60,8 @@ public abstract class Tower : MonoBehaviour {
 
     public virtual void Remove()
     {
-        Destroy(gameObject);
+        transform.parent.parent.GetComponent<SpriteRenderer>().enabled = true;
+        Destroy(transform.parent.gameObject);
     }
 
     public virtual void Upgrade()
