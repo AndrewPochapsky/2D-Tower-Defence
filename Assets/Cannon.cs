@@ -6,12 +6,17 @@ public class Cannon : MonoBehaviour {
 
     private Transform exit;
     private Tower tower;
-
+    [HideInInspector]
     public float ProjectileSpeed;
+    [HideInInspector]
     public int DamageSpread;
+    [HideInInspector]
     public int Damage;
+    [HideInInspector]
     public float NextFire;
+    [HideInInspector]
     public float FireRate;
+    [HideInInspector]
     public Type type;
 
 
