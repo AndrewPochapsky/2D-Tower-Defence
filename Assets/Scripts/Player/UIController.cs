@@ -40,7 +40,9 @@ public class UIController : MonoBehaviour {
         {
             if (canvas.transform.GetChild(i).GetComponent<Button>())
             {
-                buttons.Add(canvas.transform.GetChild(i).GetComponent<Button>());
+                Button button = canvas.transform.GetChild(i).GetComponent<Button>();
+                button.transform.GetChild(1).GetComponent<Text>().text = GetTowerBuildCost(button.gameObject.tag).ToString();
+                buttons.Add(button);
             }
                 
         }
@@ -131,27 +133,27 @@ public class UIController : MonoBehaviour {
         foreach(Button button in buttons)
         {
             string tag = button.tag;
-            int buildCost=0;
-            switch (tag)
-            {
-                case "ARROW":
-                    buildCost = ArrowTower.buildCost;
-                    break;
-                case "LASER":
-                    buildCost = LaserTower.buildCost;
-                    break;
-                case "CANNON":
-                    buildCost = CannonTower.buildCost;
-                    break;
-            }
-            if(buildCost > gm.GetCurrency())
+            int buildCost = GetTowerBuildCost(tag);
+
+            Image image = button.transform.GetChild(0).GetComponent<Image>();
+            Text text = button.transform.GetChild(1).GetComponent<Text>();
+            Color imageColor = image.color;
+            Color textColor = text.color;
+            if (buildCost > gm.GetCurrency())
             {
                 button.interactable = false;
+                textColor.a = 0.5f;
+                imageColor.a = 0.5f;
+               
             }
             else
             {
                 button.interactable = true;
+                textColor.a = 1;
+                imageColor.a = 1;
             }
+            image.color = imageColor;
+            text.color = textColor;
         }
     }
     private void CheckIfCanUpgrade()
@@ -180,6 +182,26 @@ public class UIController : MonoBehaviour {
     {
         MouseRay.lastTower.Upgrade();
     }
-
+    private int GetTowerBuildCost(string tag)
+    {
+        int buildCost = 0;
+        switch (tag)
+        {
+            case "ARROW":
+                buildCost = ArrowTower.buildCost;
+                break;
+            case "LASER":
+                buildCost = LaserTower.buildCost;
+                break;
+            case "CANNON":
+                buildCost = CannonTower.buildCost;
+                break;
+            case "ICE":
+                buildCost = IceTower.buildCost;
+                break;
+        }
+        return buildCost;
+    }
+   
 
 }
