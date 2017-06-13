@@ -61,6 +61,7 @@ public abstract class Tower : MonoBehaviour {
     public virtual void Remove()
     {
         transform.parent.parent.GetComponent<SpriteRenderer>().enabled = true;
+        transform.parent.parent.GetComponent<Collider2D>().enabled = true;
         Destroy(transform.parent.gameObject);
     }
 
