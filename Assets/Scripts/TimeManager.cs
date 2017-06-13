@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour {
 
     public Text pausedText;
     private float lastTime = 0;
-    private Transform buttonContainer;
+    public RectTransform buttonContainer;
     private List<Button> buttons;
     private EventSystem eventSystem;
     private UIController uiController;
@@ -17,7 +17,7 @@ public class TimeManager : MonoBehaviour {
         uiController = GameObject.FindObjectOfType<UIController>();
         eventSystem = GameObject.FindObjectOfType<EventSystem>();
         buttons = new List<Button>();
-        buttonContainer = GameObject.FindGameObjectWithTag("TimeButtons").transform;
+      
         foreach(Button button in buttonContainer.GetComponentsInChildren<Button>())
         {
             buttons.Add(button);
