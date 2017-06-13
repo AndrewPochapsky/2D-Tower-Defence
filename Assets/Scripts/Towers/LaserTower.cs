@@ -10,7 +10,7 @@ public class LaserTower : Tower {
     GameObject proj;
     Laser[] lasers;
     int tempCount = 0;
-
+    Transform cannonTransform;
     private void Awake()
     {
         SetStats(Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 150, 3);
@@ -18,9 +18,13 @@ public class LaserTower : Tower {
 
     // Use this for initialization
     protected override void Start () {
-        
-      
-        base.Start();
+
+
+        //base.Start();
+        range = transform.GetChild(0).GetComponent<TowerRange>();
+        cannonTransform = transform.parent.GetChild(0);
+        targets = new Enemy[NumOfTargets];
+        range.SetNumOfTargets(NumOfTargets);
 
         lasers = new Laser[NumOfTargets];
         for(int i = 0; i < NumOfTargets; i++)
@@ -29,7 +33,7 @@ public class LaserTower : Tower {
 
             lasers[i] = proj.GetComponent<Laser>();
             lasers[i].SetDamage(2);
-            //lasers[i].SetStart(cannon);
+            lasers[i].SetStart(cannonTransform);
             lasers[i].transform.SetParent(this.transform);
             proj.SetActive(false);
         }
