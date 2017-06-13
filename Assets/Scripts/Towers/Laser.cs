@@ -21,6 +21,7 @@ public class Laser : MonoBehaviour {
         if (target == null)
         {
             gameObject.SetActive(false);
+            dealingDamage = false;
             //print("target is null");
         }
        
@@ -30,7 +31,10 @@ public class Laser : MonoBehaviour {
             laser.SetPosition(1, target.position);
             print("settting laser position");
         }
-            
+        if(gameObject.activeInHierarchy && !dealingDamage)
+        {
+            print("fak");
+        }    
         
         if (target!=null && !dealingDamage)
         {

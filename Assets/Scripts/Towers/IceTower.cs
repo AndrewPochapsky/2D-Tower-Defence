@@ -5,7 +5,7 @@ using UnityEngine;
 public class IceTower : Tower {
     public static int buildCost = 400;
     private List<AoeRange> aoeRanges;
-    private ParticleSystem system;
+   
     SpriteRenderer towerSP;
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class IceTower : Tower {
             aoeRanges.Add(range);
             range.SetDamage(Damage);
         }
-        system = transform.GetChild(1).GetComponent<ParticleSystem>();
+       
         
         
        // StartCoroutine(AlternatingAttack());
