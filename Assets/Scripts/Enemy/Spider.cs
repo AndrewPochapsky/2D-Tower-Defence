@@ -9,6 +9,25 @@ public class Spider : Enemy {
         base.Start();
         SetUpStats("Spider", 5, 2, 3);
     }
-	
-	
+
+
+    protected override void SetSprites()
+    {
+        switch (DirectionMoving())
+        {
+            case "up":
+                body.sprite = bodyBack;
+                break;
+            case "down":
+                body.sprite = bodyFront;
+                break;
+            case "right":
+                body.sprite = bodyRight;
+                break;
+            case "left":
+                body.sprite = bodyLeft;
+                break;
+        }
+    }
+
 }

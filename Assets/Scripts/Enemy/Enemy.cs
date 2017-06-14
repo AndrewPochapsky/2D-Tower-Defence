@@ -12,10 +12,12 @@ public abstract class Enemy : MonoBehaviour {
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
-
-    public SpriteRenderer head, body;
-    public Sprite headFront, headBack, headLeft, headRight;
-    public Sprite bodyFront, bodyBack, bodyLeft, bodyRight;
+    [SerializeField]
+    protected SpriteRenderer head, body;
+    [SerializeField]
+    protected Sprite headFront, headBack, headLeft, headRight;
+    [SerializeField]
+    protected Sprite bodyFront, bodyBack, bodyLeft, bodyRight;
    
 
     public bool Targeted
@@ -63,7 +65,7 @@ public abstract class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	protected virtual void Update () {
-        Move();
+        
         if (CurrentHealth <= 0)
         {
             Die();
@@ -71,7 +73,11 @@ public abstract class Enemy : MonoBehaviour {
         //print("Direction moving: "+DirectionMoving());
 
 	}
-   
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
     public string GetName()
     {
         return Name;
@@ -191,7 +197,7 @@ public abstract class Enemy : MonoBehaviour {
         isSlowed = value;
     }
 
-    private string DirectionMoving()
+    protected string DirectionMoving()
     {
 
         float xDifference = Mathf.Abs(transform.position.x - nextWaypoint.position.x);
@@ -216,7 +222,7 @@ public abstract class Enemy : MonoBehaviour {
         return direction;
     }
 
-    private void SetSprites()
+    protected virtual void SetSprites()
     {
         switch (DirectionMoving())
         {
