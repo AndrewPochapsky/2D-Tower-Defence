@@ -13,6 +13,11 @@ public abstract class Enemy : MonoBehaviour {
     protected int Damage { get; set; }
     protected float Speed { get; set; }
 
+    public SpriteRenderer head, body;
+    public Sprite headFront, headBack, headLeft, headRight;
+    public Sprite bodyFront, bodyBack, bodyLeft, bodyRight;
+   
+
     public bool Targeted
     {
         get
@@ -34,6 +39,7 @@ public abstract class Enemy : MonoBehaviour {
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
     private StatusIndicator statusIndicator;
+    [HideInInspector]
     public List<Transform> laserTowers;
 
 
@@ -49,6 +55,7 @@ public abstract class Enemy : MonoBehaviour {
             waypoints.Add(waypointsTransform.GetChild(i));
         }
         nextWaypoint = waypoints[0];
+        SetSprites();
      
        
 	}
@@ -61,7 +68,7 @@ public abstract class Enemy : MonoBehaviour {
         {
             Die();
         }
-        print("num of towers targeting: " + laserTowers.Count);
+        //print("Direction moving: "+DirectionMoving());
 
 	}
    
@@ -113,6 +120,9 @@ public abstract class Enemy : MonoBehaviour {
 
                 nextWaypoint = waypoints[0];
             }
+            //change sprites
+            SetSprites();
+
                 
         }
        
@@ -181,5 +191,51 @@ public abstract class Enemy : MonoBehaviour {
         isSlowed = value;
     }
 
+    private string DirectionMoving()
+    {
 
+        float xDifference = Mathf.Abs(transform.position.x - nextWaypoint.position.x);
+        float yDifference = Mathf.Abs(transform.position.y - nextWaypoint.position.y);
+        string direction = "";
+        if (transform.position.x < nextWaypoint.position.x && xDifference > 0.5f)
+        {
+            direction = "right";
+        }
+        else if(transform.position.x > nextWaypoint.position.x && xDifference > 0.5f)
+        {
+            direction = "left";
+        }
+        else if(transform.position.y < nextWaypoint.position.y && yDifference > 0.5f)
+        {
+            direction = "up";
+        }
+        else if (transform.position.y > nextWaypoint.position.y)
+        {
+            direction = "down";
+        }
+        return direction;
+    }
+
+    private void SetSprites()
+    {
+        switch (DirectionMoving())
+        {
+            case "up":
+                head.sprite = headBack;
+                body.sprite = bodyBack;
+                break;
+            case "down":
+                head.sprite = headFront;
+                body.sprite = bodyFront;
+                break;
+            case "right":
+                head.sprite = headRight;
+                body.sprite = bodyRight;
+                break;
+            case "left":
+                head.sprite = headLeft;
+                body.sprite = bodyLeft;
+                break;
+        }
+    }
 }
