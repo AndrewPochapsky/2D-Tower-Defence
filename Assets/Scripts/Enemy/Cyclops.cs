@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Troll : Enemy {
+public class Cyclops : Enemy {
 
 	// Use this for initialization
 	protected override void Start () {
