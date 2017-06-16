@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 || Input.GetKeyDown(KeyCode.Q))
         {
             EndGame();
         }   
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
 
     public int GetMaxHealth()
     {
-        return maxHealth;
+        return maxHealth; 
     }
     public void SetMaxHealth(int health)
     {
