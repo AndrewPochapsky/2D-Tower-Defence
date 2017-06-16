@@ -18,23 +18,13 @@ public abstract class Enemy : MonoBehaviour {
     protected Sprite headFront, headBack, headLeft, headRight;
     [SerializeField]
     protected Sprite bodyFront, bodyBack, bodyLeft, bodyRight;
-   
 
-    public bool Targeted
-    {
-        get
-        {
-            return targeted;
-        }
-
-        set
-        {
-            targeted = value;
-        }
-    }
+    public AudioClip[] hitSounds;
 
     private bool targeted = false;
+    private bool dead = false;
     private bool isSlowed = false;
+    private AudioSource audioSource;
     private Rigidbody2D rb;
     private List<Transform> waypoints;
     private Transform waypointsTransform;
@@ -47,6 +37,7 @@ public abstract class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+        audioSource = GetComponent<AudioSource>();
         laserTowers = new List<Transform>();
         statusIndicator = GetComponent<StatusIndicator>();
         waypointsTransform = GameObject.FindGameObjectWithTag("Waypoints").transform;
@@ -58,6 +49,7 @@ public abstract class Enemy : MonoBehaviour {
         }
         nextWaypoint = waypoints[0];
         SetSprites();
+        
      
        
 	}
@@ -68,7 +60,7 @@ public abstract class Enemy : MonoBehaviour {
         
         if (CurrentHealth <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
         //print("Direction moving: "+DirectionMoving());
 
@@ -102,8 +94,31 @@ public abstract class Enemy : MonoBehaviour {
     {
         return Speed;
     }
-   
-    
+
+    public bool Targeted
+    {
+        get
+        {
+            return targeted;
+        }
+
+        set
+        {
+            targeted = value;
+        }
+    }
+
+    public bool Dead
+    {
+        get
+        {
+            return dead;
+        }
+        
+    }
+
+
+
     protected void SetUpStats(string name, int maxHealth, int damage, float speed)
     {
         Name = name; 
@@ -134,9 +149,17 @@ public abstract class Enemy : MonoBehaviour {
        
     }
 
-    protected void Die()
+    protected IEnumerator Die()
     {
         //play sound, give currency/exp to player
+        foreach(Transform child in transform.GetComponent<Transform>())
+        {
+            child.gameObject.SetActive(false);
+        }
+        transform.GetComponent<Enemy>().enabled = false;
+        dead = true;
+        yield return new WaitForSeconds(2);
+
         Destroy(gameObject);
     }
 
@@ -157,6 +180,8 @@ public abstract class Enemy : MonoBehaviour {
         if (collision.GetComponent<DamageSpread>())
         {
             DamageSpread spread = collision.GetComponent<DamageSpread>();
+            audioSource.clip = Utility.RandomClip(hitSounds);
+            audioSource.Play();
             CurrentHealth -= spread.GetDamage();
             statusIndicator.SetHealth();
         }
@@ -164,6 +189,8 @@ public abstract class Enemy : MonoBehaviour {
         if (collision.GetComponent<Projectile>())
         {
             Projectile proj = collision.GetComponent<Projectile>();
+            audioSource.clip = Utility.RandomClip(hitSounds);
+            audioSource.Play();
             CurrentHealth -= proj.GetDamage();
             //print("taking damage");
             statusIndicator.SetHealth();
@@ -179,6 +206,8 @@ public abstract class Enemy : MonoBehaviour {
     {
 
         targeted = true;
+        audioSource.clip = Utility.RandomClip(hitSounds);
+        audioSource.Play();
         CurrentHealth -= damage;
         statusIndicator.SetHealth();
     }
@@ -244,4 +273,7 @@ public abstract class Enemy : MonoBehaviour {
                 break;
         }
     }
+
+  
+
 }

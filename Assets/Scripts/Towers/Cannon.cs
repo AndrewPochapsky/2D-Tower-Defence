@@ -28,7 +28,7 @@ public class Cannon : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (tower.GetTarget() != null)
+        if (tower.GetTarget() != null && !tower.GetTarget().Dead)
         {
             LookAtTarget(tower.GetTarget().transform);
             Fire();

@@ -18,7 +18,7 @@ public class Laser : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (target == null)
+        if (target == null || target.GetComponent<Enemy>().Dead)
         {
             gameObject.SetActive(false);
             dealingDamage = false;
@@ -26,7 +26,7 @@ public class Laser : MonoBehaviour {
         }
        
         laser.SetPosition(0, startingLoc.position);
-        if (target != null)
+        if (target != null && !target.GetComponent<Enemy>().Dead)
         {
             laser.SetPosition(1, target.position);
             print("settting laser position");

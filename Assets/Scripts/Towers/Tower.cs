@@ -44,14 +44,16 @@ public abstract class Tower : MonoBehaviour {
 
     protected virtual void Update()
     {
+        
         targets = range.GetEnemies();
         //print("Targets count: " + targets.Length);
         //print("Next Fire: " + NextFire);
         if (targets.Length == 1)
         {
-            if (targets[0] != null)
+            if (targets[0] != null && !targets[0].Dead)
             {
                 cannon.Fire();
+                
             }
         }
        
