@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IceTower : Tower {
-    public static int buildCost = 400;
+    public static int buildCost = 500;
     private List<AoeRange> aoeRanges;
    
     SpriteRenderer towerSP;
@@ -46,5 +46,13 @@ public class IceTower : Tower {
         UIController.SetDisplayCard(value);
     }
 
-
+    public override void Upgrade()
+    {
+        foreach(AoeRange range in aoeRanges)
+        {
+            range.IncreaseRange(0.25f, 0.25f);
+        }
+        UpgradeLevel++;
+        UpgradeCost += 300;
+    }
 }

@@ -69,6 +69,9 @@ public class AoeRange : MonoBehaviour {
         }
     }
 
-
+    public void IncreaseRange(float width, float height)
+    {
+        transform.localScale += new Vector3(width, height, 0);
+    }
 
 }

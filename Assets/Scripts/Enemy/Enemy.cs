@@ -7,11 +7,13 @@ public abstract class Enemy : MonoBehaviour {
 
     //TODO add an enumerator for types of resistances
     //Example: Some enemies resistant to arrows but weak to fire
+
     protected string Name { get; set; }
     protected int MaxHealth { get; set; }
     protected int CurrentHealth { get; set; }
     protected int Damage { get; set; }
     protected float Speed { get; set; }
+    protected int CurrencyReward { get; set; }
     [SerializeField]
     protected SpriteRenderer head, body;
     [SerializeField]
@@ -31,12 +33,14 @@ public abstract class Enemy : MonoBehaviour {
     private Transform nextWaypoint;
     private float tolerance = 0.1f;
     private StatusIndicator statusIndicator;
+    private GameManager gm;
     [HideInInspector]
     public List<Transform> laserTowers;
 
 
 	// Use this for initialization
 	protected virtual void Start () {
+        gm = GameObject.FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
         laserTowers = new List<Transform>();
         statusIndicator = GetComponent<StatusIndicator>();
@@ -119,13 +123,14 @@ public abstract class Enemy : MonoBehaviour {
 
 
 
-    protected void SetUpStats(string name, int maxHealth, int damage, float speed)
+    protected void SetUpStats(string name, int maxHealth, int damage, float speed, int currencyReward)
     {
         Name = name; 
         MaxHealth = maxHealth;
         CurrentHealth = MaxHealth;
         Damage = damage;
         Speed = speed;
+        CurrencyReward = currencyReward;
     }
 
     protected virtual void Move()
@@ -157,6 +162,7 @@ public abstract class Enemy : MonoBehaviour {
             child.gameObject.SetActive(false);
         }
         transform.GetComponent<Enemy>().enabled = false;
+        gm.IncreaseCurrency(CurrencyReward);
         dead = true;
         yield return new WaitForSeconds(2);
 

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     private int maxHealth;
     private int currentHealth;
     private int currencyAmount;
-
+    
     // Use this for initialization
     void Start () {
         levelManager = GameObject.FindObjectOfType<LevelManager>();
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
         maxHealth = 50;
         currentHealth = maxHealth;
         currencyAmount = 10000;
+        //should be 500 to start
         
 	}
 
@@ -63,5 +64,7 @@ public class GameManager : MonoBehaviour {
     {
         levelManager.LoadLevel("02End");
     }
+
+    
 
 }

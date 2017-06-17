@@ -19,8 +19,8 @@ public class Wave
 }
 
 public class WaveSpawner : MonoBehaviour {
-    enum SpawnState { WAITING, COUNTING, SPAWNING };
-    SpawnState spawnState;
+    public enum SpawnState { WAITING, COUNTING, SPAWNING , PREPARING};
+    public static SpawnState spawnState;
 
     public Wave[] waves;
     private static int waveNum= 1;
@@ -30,39 +30,46 @@ public class WaveSpawner : MonoBehaviour {
     public Transform spawnPoint;
     float searchCountDown = 1f;
     float waveCountDown = 3f;
+    private GameManager gm;
+    private UIController uiController;
     // Use this for initialization
     void Start () {
-        spawnState = SpawnState.COUNTING;
+        gm = GameObject.FindObjectOfType<GameManager>();
+        uiController = GameObject.FindObjectOfType<UIController>();
+        spawnState = SpawnState.PREPARING;
         totalWaves = waves.Length;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (spawnState == SpawnState.WAITING)
+        if (spawnState != SpawnState.PREPARING)
         {
-            if (!EnemyAlive())
+            if (spawnState == SpawnState.WAITING)
             {
-                print("wave completed");
-                WaveCompleted();
+                if (!EnemyAlive())
+                {
+                    print("wave completed");
+                    WaveCompleted();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if (waveCountDown <= 0)
+            {
+                if (spawnState != SpawnState.SPAWNING)
+                {
+                    StartCoroutine(SpawnWave());
+                }
             }
             else
             {
-                return;
-            }
-        }
-        if(waveCountDown <= 0)
-        {
-            if (spawnState != SpawnState.SPAWNING)
-            {
-                StartCoroutine(SpawnWave());
-            }
-        }
-        else
-        {
 
-            waveCountDown -= Time.deltaTime;
+                waveCountDown -= Time.deltaTime;
+            }
         }
+       
        
        
 	}
@@ -108,15 +115,19 @@ public class WaveSpawner : MonoBehaviour {
         if (waveNum + 1 <= waves.Length)
         {
             waveNum++;
+            gm.IncreaseCurrency(250);
+            uiController.EnableStartButton();
+            spawnState = SpawnState.PREPARING;
         }
         else
         {
             waveNum = 1;
             print("restarting waves");
+            spawnState = SpawnState.COUNTING;
         }
        
         waveCountDown = 3f;
-        spawnState = SpawnState.COUNTING;
+        //spawnState = SpawnState.COUNTING;
     }
     
 

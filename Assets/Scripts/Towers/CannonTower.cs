@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonTower : Tower {
 
-    public static int buildCost = 200;
+    public static int buildCost = 250;
     private void Awake()
     {
         SetStats(Type.CANNON, "Cannon Tower", 7, 1, 1.5f, 8, buildCost, 1, 150, 1);

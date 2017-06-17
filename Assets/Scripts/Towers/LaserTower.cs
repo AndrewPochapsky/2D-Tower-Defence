@@ -5,7 +5,7 @@ using System.Linq;
 
 public class LaserTower : Tower {
 
-    public static int buildCost = 600;
+    public static int buildCost = 750;
     //target not being reset i think]
     GameObject proj;
     Laser[] lasers;

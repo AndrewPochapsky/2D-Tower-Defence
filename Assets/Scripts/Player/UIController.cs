@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour {
     private GameObject towerImage= null;
     Text towerName, upgradeLevel, upgradeCost;
     Button upgradeButton;
+    public Button startButton;
     GameManager gm;
     public Transform infoCard;
     public BoxCollider2D infoCardColl;
@@ -41,8 +42,12 @@ public class UIController : MonoBehaviour {
             if (canvas.transform.GetChild(i).GetComponent<Button>())
             {
                 Button button = canvas.transform.GetChild(i).GetComponent<Button>();
-                button.transform.GetChild(1).GetComponent<Text>().text = GetTowerBuildCost(button.gameObject.tag).ToString();
-                buttons.Add(button);
+                if (!button.CompareTag("StartButton"))
+                {
+                    button.transform.GetChild(1).GetComponent<Text>().text = GetTowerBuildCost(button.gameObject.tag).ToString();
+                    buttons.Add(button);
+                }
+                
             }
                 
         }
@@ -202,6 +207,20 @@ public class UIController : MonoBehaviour {
         }
         return buildCost;
     }
-   
+
+    public void StartWave()
+    {
+        WaveSpawner.spawnState = WaveSpawner.SpawnState.COUNTING;
+        //startButton.gameObject.SetActive(false);
+        startButton.transform.GetChild(0).GetComponent<Text>().text = "Wave in Progress";
+        startButton.interactable = false;
+    }
+    public void EnableStartButton()
+    {
+
+        startButton.transform.GetChild(0).GetComponent<Text>().text = "Start Wave";
+        startButton.interactable = true;
+    }
+
 
 }

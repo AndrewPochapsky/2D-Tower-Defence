@@ -43,7 +43,7 @@ public class TowerRange : MonoBehaviour {
         {
             for (int i = 0; i < detectedEnemies.Length; i++)
             {
-                if (detectedEnemies[i] == null)
+                if (detectedEnemies[i] == null && collision.GetComponent<Enemy>()!=null)
                 {
                     detectedEnemies[i] = collision.GetComponent<Enemy>();
                     break;
@@ -59,13 +59,14 @@ public class TowerRange : MonoBehaviour {
         if (collision.GetComponent<Enemy>())
         {
             int index = Array.IndexOf(detectedEnemies, collision.GetComponent<Enemy>());
+            print("index: " + index);
             if (transform.parent.GetComponent<LaserTower>())
             {
                 collision.GetComponent<Enemy>().laserTowers.Remove(transform.parent);
                 print("removing transfrom, new count is " + collision.GetComponent<Enemy>().laserTowers.Count);
             }
-                
-            detectedEnemies[index] = null;
+            if (index !=-1)
+                detectedEnemies[index] = null;
             //need to find  way to update the laser's final transform
         }
     }
