@@ -56,6 +56,7 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        print("number of buttons: " + buttons.Count);
         CheckIfCanBuild();
         CheckIfCanUpgrade();
         if (Input.GetMouseButtonDown(1)&& towerImage!=null)
@@ -167,11 +168,11 @@ public class UIController : MonoBehaviour {
         {
             if(MouseRay.lastTower.GetUpgradeCost() > gm.GetCurrency() || MouseRay.lastTower.GetUpgradeLevel()==Tower.GetMaxUpgradeLevel())
                 upgradeButton.interactable = false;
+            else
+                upgradeButton.interactable = true;
+
         }
-        else
-        {
-            upgradeButton.interactable = true;
-        }
+       
     }
 
     public void DeleteTower()

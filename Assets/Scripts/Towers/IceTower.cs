@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IceTower : Tower {
-    public static int buildCost = 500;
+    public static int buildCost = 550;
     private List<AoeRange> aoeRanges;
    
     SpriteRenderer towerSP;

@@ -13,7 +13,7 @@ public class LaserTower : Tower {
     Transform cannonTransform;
     private void Awake()
     {
-        SetStats(Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 150, 3);
+        SetStats(Type.LASER, "Laser Tower", 7, 0, 0, 8, buildCost, 1, 350, 3);
     }
 
     // Use this for initialization
@@ -21,6 +21,7 @@ public class LaserTower : Tower {
 
 
         //base.Start();
+        gm = GameObject.FindObjectOfType<GameManager>();
         range = transform.GetChild(0).GetComponent<TowerRange>();
         cannonTransform = transform.parent.GetChild(0);
         targets = new Enemy[NumOfTargets];
@@ -56,9 +57,12 @@ public class LaserTower : Tower {
 
     public override void Upgrade()
     {
-        base.Upgrade();
-        Damage += 1;
-        UpgradeCost += 300;
+        gm.DepleteCurrency(UpgradeCost);
+        
+        if(UpgradeLevel==2)
+            Damage += 1;
+        UpgradeLevel++;
+        UpgradeCost += 150;
         range.IncreaseRange(0.5f);
     }
 

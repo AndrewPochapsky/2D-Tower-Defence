@@ -7,7 +7,7 @@ public class Goblin : Enemy {
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
-        SetUpStats("Goblin", 15, 1, 1, 25);
+        SetUpStats("Goblin", 22, 1, 1.5f, 20);
 	}
 	
 	// Update is called once per frame

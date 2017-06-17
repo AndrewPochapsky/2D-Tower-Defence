@@ -38,6 +38,7 @@ public class Laser : MonoBehaviour {
         
         if (target!=null && !dealingDamage)
         {
+            laser.gameObject.SetActive(true);
             StartCoroutine(DealDamage());
         }
        

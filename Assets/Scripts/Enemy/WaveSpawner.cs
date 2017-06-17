@@ -115,7 +115,7 @@ public class WaveSpawner : MonoBehaviour {
         if (waveNum + 1 <= waves.Length)
         {
             waveNum++;
-            gm.IncreaseCurrency(250);
+            gm.IncreaseCurrency(200);
             uiController.EnableStartButton();
             spawnState = SpawnState.PREPARING;
         }

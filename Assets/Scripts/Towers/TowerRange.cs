@@ -12,7 +12,10 @@ public class TowerRange : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (detectedEnemies[0]!=null && detectedEnemies[0].Dead)
+        {
+            detectedEnemies[0] = null;
+        }
 	}
     public Enemy[] GetEnemies()
     {
@@ -67,6 +70,7 @@ public class TowerRange : MonoBehaviour {
             }
             if (index !=-1)
                 detectedEnemies[index] = null;
+            
             //need to find  way to update the laser's final transform
         }
     }

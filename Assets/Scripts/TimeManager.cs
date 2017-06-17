@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class TimeManager : MonoBehaviour {
-
-    public Text pausedText;
+    public RectTransform pauseMenu;
+    
     private float lastTime = 0;
     public RectTransform buttonContainer;
     private List<Button> buttons;
@@ -24,11 +24,12 @@ public class TimeManager : MonoBehaviour {
         }
 
         lastTime = Time.timeScale;
+        buttons[0].GetComponent<Image>().color = Color.grey;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }
@@ -62,22 +63,22 @@ public class TimeManager : MonoBehaviour {
 
     }
 
-    private void TogglePause()
+    
+    public void TogglePause()
     {
         if (Time.timeScale == 0)
         {
-            pausedText.gameObject.SetActive(false);
+            pauseMenu.gameObject.SetActive(false);
             Time.timeScale = lastTime;
-            
+
         }
 
         else
         {
-            pausedText.gameObject.SetActive(true);
+            pauseMenu.gameObject.SetActive(true);
             Time.timeScale = 0;
-           
+
         }
-           
     }
 
 
