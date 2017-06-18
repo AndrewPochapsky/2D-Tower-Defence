@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Tower : MonoBehaviour {
 
     private static int maxUpgradeLevel = 3;
+    protected int currencySpentOnUpgrades = 0; 
 
     protected string Name { get; set; }
     protected int Damage { get; set; }
@@ -64,6 +65,7 @@ public abstract class Tower : MonoBehaviour {
 
     public virtual void Remove()
     {
+        gm.IncreaseCurrency((BuildCost / 2) + (currencySpentOnUpgrades / 2));
         transform.parent.parent.GetComponent<SpriteRenderer>().enabled = true;
         transform.parent.parent.GetComponent<Collider2D>().enabled = true;
         Destroy(transform.parent.gameObject);
@@ -74,7 +76,7 @@ public abstract class Tower : MonoBehaviour {
         //TODO increment stats in some way, maybe make this a virtual function, probs best idea
         UpgradeLevel++;
         gm.DepleteCurrency(UpgradeCost);
-        print("upgrade level -2 = " + (UpgradeLevel - 2));
+        currencySpentOnUpgrades += UpgradeCost;
         sp.sprite = sprites[UpgradeLevel - 2];
         
     }

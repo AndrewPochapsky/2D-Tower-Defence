@@ -24,6 +24,11 @@ public class Laser : MonoBehaviour {
             dealingDamage = false;
             //print("target is null");
         }
+        else if(!dealingDamage)
+        {
+            laser.gameObject.SetActive(true);
+            StartCoroutine(DealDamage());
+        }
        
         laser.SetPosition(0, startingLoc.position);
         if (target != null && !target.GetComponent<Enemy>().Dead)
@@ -32,12 +37,11 @@ public class Laser : MonoBehaviour {
             print("settting laser position");
         }
            
-        
+      /*  
         if (target!=null && !dealingDamage)
         {
-            laser.gameObject.SetActive(true);
-            StartCoroutine(DealDamage());
-        }
+           
+        }*/
        
      
         

@@ -16,14 +16,14 @@ public class GameManager : MonoBehaviour {
 
         maxHealth = 25;
         currentHealth = maxHealth;
-        currencyAmount = 10000;
+        currencyAmount = 500;
         //should be 500 to start
         
 	}
 
     private void Update()
     {
-        if(currentHealth <= 0 || Input.GetKeyDown(KeyCode.Q))
+        if(currentHealth <= 0)
         {
             EndGame();
         }   
