@@ -9,9 +9,9 @@ using UnityEngine;
 [System.Serializable]
 public class Wave
 {
-    public GameObject enemy1, enemy2, enemy3, enemy4;
+    public GameObject enemy1, enemy2, enemy3;
     public float spawnTimer;
-    public int numOfEnemiesToSpawn;
+    public int numOfEnemy1, numOfEnemy2, numOfEnemy3;
     [HideInInspector]
     public bool initialized= false;
     
@@ -26,15 +26,18 @@ public class WaveSpawner : MonoBehaviour {
     private static int waveNum= 1;
     private static int totalWaves;
     private GameObject[] enemies;
+    private int[] amounts;
     private int numOfEnemies = 4;
     public Transform spawnPoint;
     float searchCountDown = 1f;
     float waveCountDown = 3f;
     private GameManager gm;
     private UIController uiController;
+    private LevelManager levelManager;
     // Use this for initialization
     void Start () {
         gm = GameObject.FindObjectOfType<GameManager>();
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
         uiController = GameObject.FindObjectOfType<UIController>();
         spawnState = SpawnState.PREPARING;
         totalWaves = waves.Length;
@@ -84,22 +87,29 @@ public class WaveSpawner : MonoBehaviour {
         if (!currentWave.initialized)
         {
             enemies = new GameObject[numOfEnemies];
+            amounts = new int[numOfEnemies];
             enemies[0] = currentWave.enemy1;
             enemies[1] = currentWave.enemy2;
             enemies[2] = currentWave.enemy3;
-            enemies[3] = currentWave.enemy4;
+
+            amounts[0] = currentWave.numOfEnemy1;
+            amounts[1] = currentWave.numOfEnemy2;
+            amounts[2] = currentWave.numOfEnemy3;
+
             currentWave.initialized = true;
+            
         }
 
-        foreach(GameObject enemy in enemies)
+
+        for(int i = 0; i<enemies.Length; i++)
         {
             
-            if (enemy != null)
+            if (enemies[i] != null)
             {
-                for(int i = 0; i< currentWave.numOfEnemiesToSpawn; i++)
+                for(int x = 0; x < amounts[i]; x++)
                 {
-                    print("Spawning Enemy: " + enemy.name);
-                    Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+                    
+                    Instantiate(enemies[i], spawnPoint.position, spawnPoint.rotation);
                     yield return new WaitForSeconds(currentWave.spawnTimer);
                 }
                
@@ -121,9 +131,9 @@ public class WaveSpawner : MonoBehaviour {
         }
         else
         {
-            waveNum = 1;
-            print("restarting waves");
-            spawnState = SpawnState.COUNTING;
+            //end of game
+            levelManager.LoadLevel("03EndWin");
+            
         }
        
         waveCountDown = 3f;

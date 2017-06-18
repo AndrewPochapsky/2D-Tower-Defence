@@ -31,10 +31,7 @@ public class Laser : MonoBehaviour {
             laser.SetPosition(1, target.position);
             print("settting laser position");
         }
-        if(gameObject.activeInHierarchy && !dealingDamage)
-        {
-            print("fak");
-        }    
+           
         
         if (target!=null && !dealingDamage)
         {

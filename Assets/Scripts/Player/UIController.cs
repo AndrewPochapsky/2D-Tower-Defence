@@ -94,6 +94,12 @@ public class UIController : MonoBehaviour {
             infoCardColl.enabled = false;
             infoCard.gameObject.SetActive(false);
         }
+
+        if(Input.GetKeyDown(KeyCode.Space)&& startButton.IsInteractable())
+        {
+            StartWave();
+        }
+
 	}
 
     public void SetCurrentTowerToBuild()

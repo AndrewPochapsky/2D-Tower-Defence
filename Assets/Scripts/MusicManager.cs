@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour {
 
-    public AudioClip startClip, gameClip, endClip;
+    public AudioClip startClip, gameClip, loseClip, winClip;
     private AudioSource audioSource;
 
 	// Use this for initialization
@@ -13,11 +13,6 @@ public class MusicManager : MonoBehaviour {
         ChooseClip();
         audioSource.Play();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void ChooseClip()
     {
@@ -25,15 +20,15 @@ public class MusicManager : MonoBehaviour {
         {
             case "00Start":
                 audioSource.clip = startClip;
-                print("playing start clip");
                 break;
             case "01Level01":
                 audioSource.clip = gameClip;
-                print("playing gameClip");
                 break;
-            case "02End":
-                audioSource.clip = endClip;
-                print("playing endClip");
+            case "02EndLose":
+                audioSource.clip = loseClip;
+                break;
+            case "03EndWin":
+                audioSource.clip = winClip;
                 break;
         }
     }

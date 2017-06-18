@@ -23,16 +23,18 @@ public abstract class Tower : MonoBehaviour {
     
     public Cannon cannon;
     protected TowerRange range;
-    
+    protected SpriteRenderer sp;
+    public Sprite[] sprites;
 
 
     protected virtual void Start()
     {
         range = transform.GetChild(0).GetComponent<TowerRange>();
+        sp = GetComponent<SpriteRenderer>();
+        gm = GameObject.FindObjectOfType<GameManager>();
+
         targets = new Enemy[NumOfTargets];
         range.SetNumOfTargets(NumOfTargets);
-        
-        gm = GameObject.FindObjectOfType<GameManager>();
         cannon.Damage = Damage;
         cannon.DamageSpread = DamageSpread;
         cannon.FireRate = FireRate;
@@ -72,6 +74,8 @@ public abstract class Tower : MonoBehaviour {
         //TODO increment stats in some way, maybe make this a virtual function, probs best idea
         UpgradeLevel++;
         gm.DepleteCurrency(UpgradeCost);
+        print("upgrade level -2 = " + (UpgradeLevel - 2));
+        sp.sprite = sprites[UpgradeLevel - 2];
         
     }
 

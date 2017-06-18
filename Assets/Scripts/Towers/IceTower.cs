@@ -6,7 +6,7 @@ public class IceTower : Tower {
     public static int buildCost = 550;
     private List<AoeRange> aoeRanges;
    
-    SpriteRenderer towerSP;
+   
     private void Awake()
     {
         SetStats(Type.ICE, "Ice Tower", 1, 0, 1, 8, buildCost, 1, 300, 3);
@@ -14,8 +14,9 @@ public class IceTower : Tower {
 
     protected override void Start () {
         //TODO create a method called initialize with all of these generic references if there become more of them
+        sp = GetComponent<SpriteRenderer>();
         gm = GameObject.FindObjectOfType<GameManager>();
-        towerSP = GetComponent<SpriteRenderer>();
+       
         aoeRanges = new List<AoeRange>();
         foreach(AoeRange range in transform.GetComponentsInChildren<AoeRange>())
         {
@@ -42,17 +43,18 @@ public class IceTower : Tower {
             print("ha");
             sp.enabled = value;
         }
-        towerSP.enabled = true;
+        sp.enabled = true;
         UIController.SetDisplayCard(value);
     }
 
     public override void Upgrade()
     {
+        base.Upgrade();
         foreach(AoeRange range in aoeRanges)
         {
             range.IncreaseRange(0.25f, 0.25f);
         }
-        UpgradeLevel++;
+        
         UpgradeCost += 300;
     }
 }

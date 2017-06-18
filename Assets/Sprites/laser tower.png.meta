@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: bdaeb276cb431164ca5335dca018686b
-timeCreated: 1497364250
+timeCreated: 1497746860
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: laser tower_0
     21300002: laser tower_1
+    21300004: laser tower_2
+    21300006: laser tower_3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -101,7 +103,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 488
+        width: 489
         height: 1451
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -112,10 +114,36 @@ TextureImporter:
       name: laser tower_1
       rect:
         serializedVersion: 2
-        x: 635
-        y: 686
-        width: 482
-        height: 574
+        x: 645
+        y: 642
+        width: 485
+        height: 576
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: laser tower_2
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 0
+        width: 492
+        height: 1451
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: laser tower_3
+      rect:
+        serializedVersion: 2
+        x: 1799
+        y: 0
+        width: 489
+        height: 1451
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

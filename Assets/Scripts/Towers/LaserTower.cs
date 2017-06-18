@@ -21,6 +21,7 @@ public class LaserTower : Tower {
 
 
         //base.Start();
+        sp = GetComponent<SpriteRenderer>();
         gm = GameObject.FindObjectOfType<GameManager>();
         range = transform.GetChild(0).GetComponent<TowerRange>();
         cannonTransform = transform.parent.GetChild(0);
@@ -57,13 +58,12 @@ public class LaserTower : Tower {
 
     public override void Upgrade()
     {
-        gm.DepleteCurrency(UpgradeCost);
+        base.Upgrade();
         
-        if(UpgradeLevel==2)
-            Damage += 1;
-        UpgradeLevel++;
         UpgradeCost += 150;
         range.IncreaseRange(0.5f);
+        if (UpgradeLevel == 3)
+            Damage += 1;
     }
 
     public override void Remove()

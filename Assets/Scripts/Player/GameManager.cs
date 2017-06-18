@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 
         maxHealth = 25;
         currentHealth = maxHealth;
-        currencyAmount = 500;
+        currencyAmount = 10000;
         //should be 500 to start
         
 	}
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 
     private void EndGame()
     {
-        levelManager.LoadLevel("02End");
+        levelManager.LoadLevel("02EndLose");
     }
 
     
