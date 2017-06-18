@@ -7,7 +7,7 @@ public class CannonTower : Tower {
     public static int buildCost = 250;
     private void Awake()
     {
-        SetStats(Type.CANNON, "Cannon Tower", 5, 1, 1.5f, 8, buildCost, 1, 200, 1);
+        SetStats(Type.CANNON, "Cannon Tower", 6, 1, 1.4f, 8, buildCost, 1, 200, 1);
     }
 
     // Use this for initialization

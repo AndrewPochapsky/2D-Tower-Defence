@@ -9,9 +9,9 @@ using UnityEngine;
 [System.Serializable]
 public class Wave
 {
-    public GameObject enemy1, enemy2, enemy3;
+    public GameObject enemy1, enemy2, enemy3, enemy4;
     public float spawnTimer;
-    public int numOfEnemy1, numOfEnemy2, numOfEnemy3;
+    public int numOfEnemy1, numOfEnemy2, numOfEnemy3, numOfEnemy4;
     [HideInInspector]
     public bool initialized= false;
     
@@ -91,10 +91,12 @@ public class WaveSpawner : MonoBehaviour {
             enemies[0] = currentWave.enemy1;
             enemies[1] = currentWave.enemy2;
             enemies[2] = currentWave.enemy3;
+            enemies[3] = currentWave.enemy4;
 
             amounts[0] = currentWave.numOfEnemy1;
             amounts[1] = currentWave.numOfEnemy2;
             amounts[2] = currentWave.numOfEnemy3;
+            amounts[3] = currentWave.numOfEnemy4;
 
             currentWave.initialized = true;
             
