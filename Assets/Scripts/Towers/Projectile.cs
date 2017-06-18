@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-    private int damage;
-    private float speed;
+    protected int damage;
+    protected int damageSpread;
+    protected float speed;
     private Transform enemyTarget;
-	// Use this for initialization
-	void Start () {
-		
-	}
+	protected virtual void Start()
+    {
+
+    }
 	
 	// Update is called once per frame
-	void Update () {
+        protected virtual void Update () {
+
         if (enemyTarget != null)
         {
             LookAtTarget(enemyTarget);
@@ -45,6 +47,14 @@ public class Projectile : MonoBehaviour {
     public int GetDamage()
     {
         return damage;
+    }
+    public void SetDamageSpread(int spread)
+    {
+        damageSpread = spread;
+    }
+    public int GetDamageSpread()
+    {
+        return damageSpread;
     }
 
     private void LookAtTarget(Transform target)

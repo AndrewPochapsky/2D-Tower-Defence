@@ -4,11 +4,26 @@ using UnityEngine;
 
 public class CannonTower : Tower {
 
-	// Use this for initialization
-	protected override void Start () {
+    public static int buildCost = 250;
+    private void Awake()
+    {
+        SetStats(Type.CANNON, "Cannon Tower", 5, 1, 1.5f, 8, buildCost, 1, 200, 1);
+    }
+
+    // Use this for initialization
+    protected override void Start () {
+       
         base.Start();
-        SetStats(TowerType.Type.CANNON, "Cannon Tower", 10, 1.5f,2, 200, 1);
-	}
-	
-	
+    }
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        Damage += 2;
+        DamageSpread += 1;
+        FireRate -= 0.1f;
+        UpgradeCost += 200;
+        range.IncreaseRange(0.2f);
+    }
+
+
 }

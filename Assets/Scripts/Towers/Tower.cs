@@ -2,80 +2,167 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : MonoBehaviour {
+public abstract class Tower : MonoBehaviour {
+
+    private static int maxUpgradeLevel = 3;
+    protected int currencySpentOnUpgrades = 0; 
 
     protected string Name { get; set; }
     protected int Damage { get; set; }
+    protected int DamageSpread { get; set; }
     protected float FireRate { get; set; }
     protected float NextFire { get; set; }
     protected float ProjectileSpeed { get; set; }
+    protected int NumOfTargets { get; set; }
 
     protected int BuildCost { get; set; }
     protected int UpgradeLevel { get; set; }
-    protected TowerType.Type Type { get; set; }
-
-    private Enemy target;
+    protected int UpgradeCost { get; set; }
+    protected Type Type { get; set; }
+    protected GameManager gm;
+    protected Enemy[] targets;
     
-    private Transform cannon;
-    private TowerRange range;
+    public Cannon cannon;
+    protected TowerRange range;
+    protected SpriteRenderer sp;
+    public Sprite[] sprites;
 
 
     protected virtual void Start()
     {
-        range = transform.GetChild(1).GetComponent<TowerRange>();
-        cannon = transform.GetChild(0).transform;
+        range = transform.GetChild(0).GetComponent<TowerRange>();
+        sp = GetComponent<SpriteRenderer>();
+        gm = GameObject.FindObjectOfType<GameManager>();
+
+        targets = new Enemy[NumOfTargets];
+        range.SetNumOfTargets(NumOfTargets);
+        cannon.Damage = Damage;
+        cannon.DamageSpread = DamageSpread;
+        cannon.FireRate = FireRate;
+        cannon.NextFire = NextFire;
+        cannon.type = Type;
+        cannon.ProjectileSpeed = ProjectileSpeed;
+        
     }
 
     protected virtual void Update()
     {
-        target = range.GetEnemy();
+        
+        targets = range.GetEnemies();
+        //print("Targets count: " + targets.Length);
         //print("Next Fire: " + NextFire);
-       if(target != null)
+        if (targets.Length == 1)
         {
-            Fire();
+            if (targets[0] != null && !targets[0].Dead)
+            {
+                cannon.Fire();
+                
+            }
         }
+       
+        
     }
 
-    protected void Remove()
+    public virtual void Remove()
     {
-        Destroy(gameObject);
+        gm.IncreaseCurrency((BuildCost / 2) + (currencySpentOnUpgrades / 2));
+        transform.parent.parent.GetComponent<SpriteRenderer>().enabled = true;
+        transform.parent.parent.GetComponent<Collider2D>().enabled = true;
+        Destroy(transform.parent.gameObject);
     }
 
-    protected void Upgrade()
+    public virtual void Upgrade()
     {
-        //increase stats
+        //TODO increment stats in some way, maybe make this a virtual function, probs best idea
         UpgradeLevel++;
+        gm.DepleteCurrency(UpgradeCost);
+        currencySpentOnUpgrades += UpgradeCost;
+        sp.sprite = sprites[UpgradeLevel - 2];
+        
     }
 
-    protected void SetStats(TowerType.Type type, string name, int damage, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel)
+    protected void SetStats(Type type, string name, int damage, int damageSpread, float fireRate, float projectileSpeed, int buildCost, int upgradeLevel, int upgradeCost, int numOfTargets)
     {
         Type = type;
         Name = name;
         Damage = damage;
+        DamageSpread = damageSpread;
         FireRate = fireRate;
         ProjectileSpeed = projectileSpeed;
         BuildCost = buildCost;
         UpgradeLevel = upgradeLevel;
-    }
-    private void Fire()
+        UpgradeCost = upgradeCost;
+        NumOfTargets = numOfTargets;
+    }/*
+    protected virtual void Fire()
     {
         //print("New Next Fire: " + NextFire);
+        
         if (Time.time > NextFire)
         {
             GameObject obj = Instantiate(Resources.Load("Projectiles/" + Type), cannon.position, cannon.rotation) as GameObject;
             Projectile projectile = obj.GetComponent<Projectile>();
 
             projectile.SetDamage(Damage);
+            projectile.SetDamageSpread(DamageSpread);
             projectile.SetSpeed(ProjectileSpeed);
-            projectile.SetTarget(target.transform);
+            projectile.SetTarget(targets[0].transform);
             
             NextFire = Time.time + FireRate;
             
         }
 
 
+    }*/
+    public Enemy GetTarget()
+    {
+        return targets[0];
+    }
+    public virtual void ToggleInfo(bool value)
+    {
+        SpriteRenderer sp = range.GetComponent<SpriteRenderer>();
+        sp.enabled = value;
+        UIController.SetDisplayCard(value);
     }
    
+    public string GetName()
+    {
+        return Name;
+    }
+    public int GetUpgradeLevel()
+    {
+        return UpgradeLevel;
+    }
+    public static int GetMaxUpgradeLevel()
+    {
+        return maxUpgradeLevel;
+    }
+    public int GetUpgradeCost()
+    {
+        return UpgradeCost;
+    }
+    public int GetBuildCost()
+    {
+        return BuildCost;
+    }
+    //TODO maybe make this just return the enemy instead of index
+    /*protected Enemy GetTargetableEnemy()
+    {
 
-  
+        for(int i =0; i < NumOfTargets; i++)
+        {
+            if (targets[i] != null)
+            {
+                if (!targets[i].IsTargetedByLaser())
+                {
+                    return targets[i];
+                }
+            }
+            
+        }
+
+        return null;
+    }*/
+
+
 }

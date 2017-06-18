@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6da733c070bf5c64c90253985eda4b37
+timeCreated: 1497392577
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Tower
+  fontNames:
+  - Tower
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
