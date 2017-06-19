@@ -34,6 +34,12 @@ public class WaveSpawner : MonoBehaviour {
     private GameManager gm;
     private UIController uiController;
     private LevelManager levelManager;
+
+    private void Awake()
+    {
+        waveNum = 1;
+    }
+
     // Use this for initialization
     void Start () {
         gm = GameObject.FindObjectOfType<GameManager>();
