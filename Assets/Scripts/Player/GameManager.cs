@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         levelManager = GameObject.FindObjectOfType<LevelManager>();
 
-        maxHealth = 3;
+        maxHealth = 25;
         currentHealth = maxHealth;
         currencyAmount = 500;
         //should be 500 to start
