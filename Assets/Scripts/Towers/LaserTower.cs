@@ -62,8 +62,7 @@ public class LaserTower : Tower {
         
         UpgradeCost += 150;
         range.IncreaseRange(0.5f);
-        if (UpgradeLevel == 3)
-            Damage += 1;
+        Damage += 1;    
     }
 
     public override void Remove()
